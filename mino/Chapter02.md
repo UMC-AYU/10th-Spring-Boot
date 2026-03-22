@@ -57,4 +57,6 @@ HTTP 메서드(CRUD)와 자원을 이용해 서로 간의 통신을 주고받는
 
 https://curiosity-storage.tistory.com/8#Request%20Header-1
 
+JWT 토큰 인증 관련
 
+https://inpa.tistory.com/entry/WEB-%F0%9F%93%9A-JWTjson-web-token-%EB%9E%80-%F0%9F%92%AF-%EC%A0%95%EB%A6%AC
