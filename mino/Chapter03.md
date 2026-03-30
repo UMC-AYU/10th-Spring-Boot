@@ -264,6 +264,7 @@ destory: 필터 객체 삭제
 스프링에서 필터는 배열 형태로 사전에 정해진 순서대로 실행하는데 이 형태를 FilterChain이라고 합니다.
 
 FilterChain이 인덱스를 늘려가면서 doFilter를 실행하게 되는 구조인데 어떤 식으로 실행하게 되냐면
+
 FilterChain에서 filter.doFilter()를 통해 필터 로직 실행 → Filter이 doFilter를 실행 마지막에 filterChain.doFilter를 실행해 다시 FilterChain을 불러오는 구조입니다.
 
 ### 필터 로직 종류
