@@ -207,11 +207,11 @@ class StringToIpPortConverter implements Converter<String, IpPort> {
 
 ### 미션
 erd  
-![erd][images/erd.png]
+![erd](images/erd.png)
 
 도메인
-![member][member.png]
-![mission][mission.png]
-![review][review.png]
+![member](images/member.png)
+![mission](images/mission.png)
+![review](images/review.png)
 ---
 
