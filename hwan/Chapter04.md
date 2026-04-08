@@ -204,5 +204,14 @@ class StringToIpPortConverter implements Converter<String, IpPort> {
 ```
 위의 예시 말고도 계층 간 관심사 분리, 보안, 데이터 무결성, 확장성과 유연성 등의 이유도 있습니다.
 
+
+### 미션
+erd  
+![erd][images/erd.png]
+
+도메인
+![member][member.png]
+![mission][mission.png]
+![review][review.png]
 ---
 
