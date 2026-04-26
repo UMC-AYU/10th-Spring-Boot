@@ -22,6 +22,6 @@ public class ReviewController {
     ){
         // TODO : 추후 Service 연결
         BaseSuccessCode code = ReviewSuccessCode.OK;
-        return ApiResponse.onSuccess(code, ReviewService.CreateReview(dto));
+        return ApiResponse.onSuccess(code, reviewService.CreateReview(dto));
     }
 }
