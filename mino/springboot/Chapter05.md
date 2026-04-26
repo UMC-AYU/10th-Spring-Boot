@@ -137,6 +137,7 @@ class FruitBox<T> {
 - **`@ExceptionHandler`와 병용**: 주로 `@ExceptionHandler`와 함께 사용하여 특정 예외(Exception 클래스)를 잡아 구체적인 에러 내용을 응답합니다.
 
 **@ControllerAdvice와의 차이점**
+
 ![Chapter05image1.png](../images/Chapter05image1.png)
 
 ### Optional이란?
