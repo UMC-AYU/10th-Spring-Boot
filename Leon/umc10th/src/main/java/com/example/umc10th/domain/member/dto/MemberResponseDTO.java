@@ -3,7 +3,7 @@ package com.example.umc10th.domain.member.dto;
 import lombok.Builder;
 import lombok.Getter;
 
-import java.util.List;
+import java.math.BigDecimal;
 
 public class MemberResponseDTO {
 
@@ -13,13 +13,15 @@ public class MemberResponseDTO {
         private Long memberId;
         private String email;
         private String name;
+        private Integer point;
     }
 
     @Getter
     @Builder
     public static class Login {
-        private String accessToken;
-        private String refreshToken;
+        private Long memberId;
+        private String email;
+        private String name;
     }
 
     @Getter
@@ -34,6 +36,6 @@ public class MemberResponseDTO {
     public static class MyReview {
         private Long reviewId;
         private String content;
-        private Integer rating;
+        private BigDecimal rating;
     }
 }
