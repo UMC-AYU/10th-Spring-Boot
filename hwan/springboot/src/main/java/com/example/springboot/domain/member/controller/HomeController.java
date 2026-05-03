@@ -15,12 +15,13 @@ public class HomeController {
 
     private final HomeService homeService;
 
-    // GET /home?page=1
     @GetMapping
     public ApiResponse<HomeResDTO.HomeInfo> getHome(
+            @RequestParam Long memberId,
+            @RequestParam Long regionId,
             @RequestParam(defaultValue = "1") Integer page
     ) {
         BaseSuccessCode code = GeneralSuccessCode.OK;
-        return ApiResponse.onSuccess(code, homeService.getHomeInfo(page));
+        return ApiResponse.onSuccess(code, homeService.getHomeInfo(memberId, regionId, page));
     }
 }
