@@ -29,8 +29,9 @@ public class MissionController {
     public ApiResponse<Void> startMission(
             @PathVariable Long missionId
     ) {
+        Long memberId = 1L;
         BaseSuccessCode code = MissionSuccessCode.OK;
-        missionService.startMission(missionId);
+        missionService.startMission(memberId, missionId);
         return ApiResponse.onSuccess(code, null);
     }
 
@@ -38,8 +39,9 @@ public class MissionController {
     public ApiResponse<Void> completeMission(
             @PathVariable Long missionId
     ) {
+        Long memberId = 1L;
         BaseSuccessCode code = MissionSuccessCode.OK;
-        missionService.completeMission(missionId);
+        missionService.completeMission(memberId, missionId);
         return ApiResponse.onSuccess(code, null);
     }
 }

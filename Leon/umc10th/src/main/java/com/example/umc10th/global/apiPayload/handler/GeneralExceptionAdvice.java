@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GeneralExceptionAdvice {
 
-    // 프로젝트에서 발생한 예외 처리
     @ExceptionHandler(ProjectException.class)
     public ResponseEntity<ApiResponse<Void>> handleMemberException(
             ProjectException e
@@ -21,7 +20,6 @@ public class GeneralExceptionAdvice {
                 .body(ApiResponse.onFailure(errorCode, null));
     }
 
-    // 그 외의 정의되지 않은 모든 예외 처리
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiResponse<String>> handleException(
             Exception ex

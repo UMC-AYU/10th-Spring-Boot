@@ -1,4 +1,4 @@
-package com.example.umc10th.domain.member.entity;
+package com.example.umc10th.domain.mission.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -8,12 +8,12 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "term")
-public class Term {
+@Table(name = "region")
+public class Region {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "term_id")
+    @Column(name = "region_id")
     private Long id;
 
     private String name;
