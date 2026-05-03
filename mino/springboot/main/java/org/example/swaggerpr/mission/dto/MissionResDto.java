@@ -11,9 +11,9 @@ public class MissionResDto {
     @Getter
     public static class MissionPreviewDto {
         private Long missionId;
-        private String title;
+        private String storeName;
         private String content;
-        private Integer reward;
+        private Integer rewardPoint;
         private String status;
     }
 
@@ -21,5 +21,9 @@ public class MissionResDto {
     @Getter
     public static class MissionListDto {
         private List<MissionPreviewDto> missions;
+        private Integer page;
+        private Integer size;
+        private Long totalElements;
+        private Integer totalPages;
     }
 }

@@ -25,6 +25,26 @@ public class MemberResDto {
 
         // 필요하면 추가
         private Integer point;
-        private Integer missionCount;
+        private Long missionCount;
+    }
+
+    @Getter
+    @Builder
+    public static class HomeMissionDto {
+        private Long missionId;
+        private String storeName;
+        private String content;
+        private Integer rewardPoint;
+    }
+
+    @Getter
+    @Builder
+    public static class HomeDto {
+        private String regionName;
+        private java.util.List<HomeMissionDto> missions;
+        private Integer page;
+        private Integer size;
+        private Long totalElements;
+        private Integer totalPages;
     }
 }

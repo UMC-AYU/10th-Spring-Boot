@@ -9,31 +9,31 @@ import org.example.swaggerpr.mission.exception.code.MissionSuccessCode;
 import org.example.swaggerpr.mission.service.MissionService;
 import org.springframework.web.bind.annotation.*;
 
-
 @RestController
-@RequiredArgsConstructor //생성자 자동 생성
+@RequiredArgsConstructor
 @RequestMapping("/users")
 public class MissionController {
     private final MissionService missionService;
 
-    // 미션 목록 조회
     @GetMapping("/{userid}/missions")
-    public ApiResponse<MissionResDto.MissionListDto> UserMissionPreview(
+    public ApiResponse<MissionResDto.MissionListDto> userMissionPreview(
             @PathVariable Long userid,
-            @RequestParam(required = false) String status
+            @RequestParam(required = false) String status,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
     ) {
-        // TODO : 추후 Service 연결
+        // 화면의 진행중/진행완료 목록은 N+1문제가 발생할 수 있어 @Query + Pageable 기반으로 조회한다.
         BaseSuccessCode code = MissionSuccessCode.OK;
-        return ApiResponse.onSuccess(code, missionService.UserMissionPreview());
+        return ApiResponse.onSuccess(code, missionService.getUserMissions(userid, status, page, size));
     }
 
-    // 미션 성공 누르기
     @PatchMapping("/{userId}/missions/{missionId}")
-    public ApiResponse<Void> CompleteMission(
+    public ApiResponse<Void> completeMission(
+            @PathVariable Long userId,
+            @PathVariable Long missionId,
             @RequestBody MissionReqDto.CompleteMissionDto dto
     ) {
-        // TODO : 추후 Service 연결
         BaseSuccessCode code = MissionSuccessCode.OK;
-        return ApiResponse.onSuccess(code, missionService.CompleteMission(dto));
+        return ApiResponse.onSuccess(code, missionService.completeMission(userId, missionId, dto));
     }
 }

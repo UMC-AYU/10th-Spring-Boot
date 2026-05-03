@@ -20,7 +20,6 @@ public class GeneralExceptionAdvice {
         return ResponseEntity.status(errorCode.getStatus())
                 .body(ApiResponse.onFailure(errorCode, null));
     }
-
     // 그 외의 정의되지 않은 모든 예외 처리
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiResponse<String>> handleException(
@@ -28,10 +27,6 @@ public class GeneralExceptionAdvice {
     ) {
         BaseErrorCode code = GeneralErrorCode.INTERNAL_SERVER_ERROR;
         return ResponseEntity.status(code.getStatus())
-                .body(ApiResponse.onFailure(
-                                code,
-                                ex.getMessage()
-                        )
-                );
+                .body(ApiResponse.onFailure(code, ex.getMessage()));
     }
 }
