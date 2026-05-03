@@ -17,14 +17,14 @@ public class MissionController {
 
     private final MissionService missionService;
 
-    // GET /users/missions?status=IN_PROGRESS&page=1
     @GetMapping
     public ApiResponse<MissionResDTO.MissionList> getMissions(
+            @RequestParam Long memberId,
             @RequestParam String status,
             @RequestParam(defaultValue = "1") Integer page
     ) {
         BaseSuccessCode code = MissionSuccessCode.MISSION_LIST_OK;
-        return ApiResponse.onSuccess(code, missionService.getMissions(status, page));
+        return ApiResponse.onSuccess(code, missionService.getMissions(memberId, status, page));
     }
 
     // PATCH /users/missions/{userMissionId}
