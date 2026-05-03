@@ -1,7 +1,10 @@
 package com.example.springboot.domain.member.exception;
 
-public class UserException extends RuntimeException {
-    public UserException(String message) {
-        super(message);
+import com.example.springboot.global.apiPayload.code.BaseErrorCode;
+import com.example.springboot.global.apiPayload.exception.ProjectException;
+
+public class UserException extends ProjectException {
+    public UserException(BaseErrorCode errorCode) {
+        super(errorCode);
     }
 }
