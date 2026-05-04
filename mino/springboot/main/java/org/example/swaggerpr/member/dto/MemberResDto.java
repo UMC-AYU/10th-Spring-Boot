@@ -9,19 +9,19 @@ public class MemberResDto {
     @Getter
     @Builder // 필드 이름 기반으로 객체 생성 스타일을 가독성 좋게 만듦
     public static class SignupResultDto {
-        private Long userId;
-        private String email;
-        private String name;
+        private final Long userId;
+        private final String email;
+        private final String name;
     }
 
     // 마이페이지 응답
     @Getter
     @Builder
     public static class MyPageDto {
-        private Long userId;
-        private String name;
-        private String email;
-        private String phone;
+        private final Long userId;
+        private final String name;
+        private final String email;
+        private final String phone;
 
         // 필요하면 추가
         private Integer point;
