@@ -9,12 +9,15 @@ import com.aim.umc10th.domain.member.enums.MissionStatus;
 import com.aim.umc10th.domain.member.service.MemberQueryService;
 import com.aim.umc10th.domain.member.service.MemberService; // 추가
 import com.aim.umc10th.domain.mission.entity.MemberMission;
+import com.aim.umc10th.domain.review.entity.Review;
 import com.aim.umc10th.global.config.apiPayload.ApiResponse;
 import com.aim.umc10th.global.config.apiPayload.code.BaseSuccessCode;
 import com.aim.umc10th.global.config.apiPayload.code.GeneralSuccessCode;
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Slice;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -23,11 +26,24 @@ import java.util.List;
 @RestController //JSON 형식의 응답을 내보내기 위한 컨트롤러
 @RequiredArgsConstructor //생성자 주입을 위한 어노테이션
 //@RequestMapping("/auth") //URI의 접두사가 /auth로 시작하는 요청은 여기로 유도하는 어노테이션
-@RequestMapping("/api")
+@RequestMapping("/members")
 public class MemberRestController {
 
     private final MemberService memberService;
     private final MemberQueryService memberQueryService;
+
+    //7주차 미션1: 내가 진행 중인 미션 조회 API
+    @PostMapping("/missions/challenging")
+    @Operation(summary = "내가 진행 중인 미션 목록 조회 API", description = "진행중인 미션 목록을 페이징으로 조회. MemberId는 바디로 전달.")
+    public ApiResponse<MemberResponseDTO.MyMissionListDTO> getChallengingMissionList(
+            @RequestBody @Valid MemberRequestDTO.MissionListDTO request, //바디로 받기
+            @RequestParam(name = "page") Integer page){
+
+        //서비스 호출 시 request에서 memberID를 꺼내서 전달
+        Page<MemberMission> missionList = memberQueryService.getChallengingMissionList(request.getMemberId(), page);
+
+        return ApiResponse.onSuccess(MemberConverter.toMyMissionListDTO(missionList));
+    }
 
     //예시API 마이페이지
     @PostMapping("/v1/users/me")
@@ -163,6 +179,24 @@ public class MemberRestController {
 
         //컨버터를 통해 엔터티+숫자를 DTO러 변환하연 반환한다.
         return ApiResponse.onSuccess(MemberConverter.toMyPageResultDTO(member,reviewCount));
+    }
+
+    //7주차 미션2
+    // 내가 작성한 리뷰 목록 조회 API (커서 기반으로.)
+    @GetMapping("/{memberId}/reviews")
+    @Operation(summary = "내가 작성한 리뷰 목록 조회 API", description = "커서 기반 페이징으로 리뷰 조회. target에 'id'또는 'score'넣기")
+    public ApiResponse<MemberResponseDTO.MyReviewListDTO> getMyReviewList(
+            @PathVariable(name = "memberId") Long memberId,
+            @RequestParam(name = "target") String target, //id 또는 score
+            @RequestParam(name = "cursor", required = false) Long cursor, //ID 커서
+            @RequestParam(name = "score", required = false) Float scoreCursor //별점
+    ) {
+
+        // 서비스 호츌
+        Slice<Review> reviewList = memberQueryService.getMyReviewList(memberId, target, cursor, scoreCursor, 0);
+
+        //컨버터를 통해 Slice를 DTO로 변환하여 반환하기
+        return ApiResponse.onSuccess(MemberConverter.toMyReviewListDTO(reviewList));
     }
 
 }

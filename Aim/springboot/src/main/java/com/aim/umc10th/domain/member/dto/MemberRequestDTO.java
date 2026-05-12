@@ -1,5 +1,6 @@
 package com.aim.umc10th.domain.member.dto;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 
 import java.time.LocalDate;
@@ -27,5 +28,13 @@ public class MemberRequestDTO {
     public static class LoginDTO{
         String email;
         String password;
+    }
+
+
+    //미션 1 진행
+    @Getter
+    public static class MissionListDTO{
+        @NotNull
+        Long memberId; // 사용자 ID를 바디에서 받음
     }
 }
