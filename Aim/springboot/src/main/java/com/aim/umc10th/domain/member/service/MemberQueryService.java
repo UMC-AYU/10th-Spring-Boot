@@ -8,7 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Slice;
 
 public interface MemberQueryService {
-    Page<MemberMission> getMissionList(Long memberId, MissionStatus status, Integer page);
+    Page<MemberMission> getMissionList(Long memberId, MissionStatus status, Integer page, Integer size);
 
     //마이페이지 조회를 위해 추가했던 메소드
     Member getMyPageInfo(Long memberId);

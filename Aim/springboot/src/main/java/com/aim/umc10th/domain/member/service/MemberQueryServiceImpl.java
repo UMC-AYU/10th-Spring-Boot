@@ -31,7 +31,7 @@ public class MemberQueryServiceImpl implements MemberQueryService {
     private final ReviewRepository reviewRepository;
 
     @Override
-    public Page<MemberMission> getMissionList(Long memberId, MissionStatus status, Integer page){
+    public Page<MemberMission> getMissionList(Long memberId, MissionStatus status, Integer page, Integer size){
         //1.회원 존재 여부 확인
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(()-> new RuntimeException("해당 회원이 존재하지 않습니다."));

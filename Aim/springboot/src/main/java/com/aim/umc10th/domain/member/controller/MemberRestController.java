@@ -37,12 +37,16 @@ public class MemberRestController {
     @Operation(summary = "내가 진행 중인 미션 목록 조회 API", description = "진행중인 미션 목록을 페이징으로 조회. MemberId는 바디로 전달.")
     public ApiResponse<MemberResponseDTO.MyMissionListDTO> getChallengingMissionList(
             @RequestBody @Valid MemberRequestDTO.MissionListDTO request, //바디로 받기
-            @RequestParam(name = "page") Integer page){
+            @RequestParam(name = "page") Integer page,
+            @RequestParam(name = "size", defaultValue = "10") Integer size //size 추가 수정
+        ){
 
         //서비스 호출 시 request에서 memberID를 꺼내서 전달
-        Page<MemberMission> missionList = memberQueryService.getChallengingMissionList(request.getMemberId(), page);
+        Page<MemberMission> missionList = memberQueryService.getMissionList(request.getMemberId(), MissionStatus.CHALLENGING, page, size);
 
         return ApiResponse.onSuccess(MemberConverter.toMyMissionListDTO(missionList));
+
+        //return ApiResponse.onSuccess(MemberConverter.toMyMissionListDTO(missionList));
     }
 
     //예시API 마이페이지
@@ -163,9 +167,10 @@ public class MemberRestController {
     public ApiResponse<MemberResponseDTO.MissionListDTO> getMissionList(
             @PathVariable(name = "memberId") Long memberId,
             @RequestParam(name = "status") MissionStatus status,
-            @RequestParam(name = "page") Integer page) {
+            @RequestParam(name = "page") Integer page,
+            @RequestParam(name = "size", defaultValue = "10") Integer size) { //size 파라미터 추가
 
-        Page<MemberMission> missionList = memberQueryService.getMissionList(memberId, status, page);
+        Page<MemberMission> missionList = memberQueryService.getMissionList(memberId, status, page, size);
         return ApiResponse.onSuccess(MemberConverter.toMissionListDTO(missionList));
     }
 
