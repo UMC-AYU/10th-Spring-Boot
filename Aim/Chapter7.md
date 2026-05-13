@@ -113,3 +113,4 @@ JPA에서의 의미: 엔터티 간에 연관관계가 맺어져 있을 때, revi
 ![내가 생성한 리뷰들 조회(커서 기반)(Score순서)](./images/7_review_score2.png)
 
 ### Request Body가 있는 API에 검증 어노테이션 붙혀 검증하기
+![Request Body가 있는 API에 검증 어노테이션 붙혀 검증하기(sign부분)](./images/7_Validation_Annotation.png)
