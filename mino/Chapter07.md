@@ -84,7 +84,7 @@ Spring 프레임워크에서 빈(Bean)의 유효성을 검증할 때 사용하�
 ## 미션
    
 ### 내가 진행중인 미션 조회하기 (오프셋 기반 페이지네이션으로 응답하기, 사용자 ID는 Request Body에서 받기 하드코딩 X)
-![img.png](../images/Chapter7-img1.png)
+![img.png](images/Chapter7-img1.png)
 ### 수정 전
 
 - 기존 API는 `GET /member/{userid}/missions` 형태였다.
@@ -115,7 +115,7 @@ Spring 프레임워크에서 빈(Bean)의 유효성을 검증할 때 사용하�
 - MissionReqDto.java
 
 ### 내가 생성한 리뷰들 조회하기 (커서 기반 페이지네이션으로 응답하기, 사진 부분 제외, ID 순, 별점 순 모두 구현하기)
-![img.png](../images/Chapter7-img2.png)
+![img.png](images/Chapter7-img2.png)
 ### 수정 전
 
 - 리뷰 생성 API만 존재했다.
