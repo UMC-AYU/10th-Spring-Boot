@@ -1,6 +1,7 @@
 package org.example.swaggerpr.mission.converter;
 
 import org.example.swaggerpr.mission.dto.MissionResDto;
+import org.example.swaggerpr.mission.entity.Mission;
 import org.example.swaggerpr.mission.entity.mapping.MemberMission;
 import org.springframework.data.domain.Page;
 
@@ -20,6 +21,24 @@ public class MissionConverter {
                 .size(memberMissions.getSize())
                 .totalElements(memberMissions.getTotalElements())
                 .totalPages(memberMissions.getTotalPages())
+                .build();
+    }
+
+    public static MissionResDto.NearbyMissionListDto toNearbyMissionListDto(Page<Mission> missions) {
+        return MissionResDto.NearbyMissionListDto.builder()
+                .regionName(missions.hasContent() ? missions.getContent().getFirst().getStore().getRegion().getName() : null)
+                .missions(missions.getContent().stream()
+                        .map(mission -> MissionResDto.NearbyMissionDto.builder()
+                                .missionId(mission.getId())
+                                .storeName(mission.getStore().getName())
+                                .content(mission.getContent())
+                                .rewardPoint(mission.getRewardPoint())
+                                .build())
+                        .toList())
+                .page(missions.getNumber())
+                .size(missions.getSize())
+                .totalElements(missions.getTotalElements())
+                .totalPages(missions.getTotalPages())
                 .build();
     }
 }

@@ -3,6 +3,7 @@ package org.example.swaggerpr.mission.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.example.swaggerpr.mission.entity.mapping.MemberMission;
+import org.example.swaggerpr.store.entity.Store;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -32,7 +33,7 @@ public class Mission {
     @JoinColumn(name = "store_id", nullable = false)
     private Store store;
 
-    // 회원별 진행 상태는 Mission 자체가 아니라 MemberMission에 저장한다.
+    // 회원별 미션 진행 상태는 Mission 자체가 아니라 MemberMission에 저장한다.
     @OneToMany(mappedBy = "mission", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
     private List<MemberMission> memberMissions = new ArrayList<>();

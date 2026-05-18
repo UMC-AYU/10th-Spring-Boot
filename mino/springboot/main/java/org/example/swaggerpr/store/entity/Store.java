@@ -1,7 +1,8 @@
-package org.example.swaggerpr.mission.entity;
+package org.example.swaggerpr.store.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.example.swaggerpr.mission.entity.Mission;
 import org.example.swaggerpr.review.entity.Review;
 
 import java.util.ArrayList;
@@ -19,7 +20,7 @@ public class Store {
     private Long id;
 
     @Column(nullable = false, length = 20)
-    private String number;
+    private String phoneNumber;
 
     @Column(nullable = false, length = 200)
     private String name;
@@ -27,7 +28,6 @@ public class Store {
     @Column(nullable = false, length = 200)
     private String address;
 
-    // Store는 지역별 미션 조회의 기준이 되므로 Region과 N:1로 매핑한다.
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "region_id", nullable = false)
     private Region region;

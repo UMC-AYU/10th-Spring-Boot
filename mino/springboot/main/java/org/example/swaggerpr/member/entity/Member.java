@@ -63,5 +63,5 @@ public class Member {
     // 회원 선호 카테고리 매핑 엔티티로 표현한다.
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
-    private List<MemberFoodCategory> preferCategories = new ArrayList<>();
+    private List<MemberFoodCategory> memberFoodCategories = new ArrayList<>();
 }
