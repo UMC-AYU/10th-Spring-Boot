@@ -3,6 +3,7 @@ package com.aim.umc10th.domain.member.entity;
 import com.aim.umc10th.domain.common.entity.BaseEntity;
 import com.aim.umc10th.domain.member.enums.Gender;
 import com.aim.umc10th.domain.common.entity.Address;
+import com.aim.umc10th.domain.member.enums.Social_type;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -31,6 +32,9 @@ public class Member extends BaseEntity {
     @Column(nullable = false, unique = true, length = 50) //로그인 아이디로 쓰인다면 비어있어도 안되고 중복도 안된다.
     private String email;
 
+    @Column(nullable = false, length = 100) //(8주차 미션)위에 이메일과 함께 로그인을 위해 추가
+    private String password;
+
     @Column(columnDefinition = "INTEGER DEFAULT 0") //Point 기본값 필요
     private Long point;
 
@@ -47,9 +51,15 @@ public class Member extends BaseEntity {
     @Column(name="birth")
     private LocalDate birth;
 
-    @Column(name = "address")
+    @Column(name = "address", length = 255)
+    private String address;
+
+    @Column(name = "social_type")
     @Enumerated(EnumType.STRING)
-    private Address address;
+    private Social_type socialType;
+
+    @Column(name = "status")
+    private String status;
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     //mappedBy는 나는 연관관계의 주인은 아니고, MemberPrefer에 있는 member필드에 의해 매핑되었다는 뜻이다.
