@@ -109,6 +109,13 @@ Spring MVC의 `DispatcherServlet`에 요청이 도달하기 전, 서블릿 컨�
 ### Spring Security를 적용하고 회원가입 API를 구현해주세요 
 (폼 로그인을 위한 email, password를 추가로 받고 비밀번호는 BCrypt로 솔트처리해주세요)
 
+![Chapter08image1.png](images/Chapter08image1.png)
+
 ### 회원가입 API는 Public API, 그 이외의 API는 Private API로 설정해주세요
 (Public API: 로그인 불필요 / Private API: 로그인 필요)
 (exceptionHandling을 구현해 인증, 인가 실패 시 응답이 통일되야 함)
+
+![Chapter08image2.png](images/Chapter08image2.png)
+
+
+![Chapter08image3.png](images/Chapter08image3.png)
