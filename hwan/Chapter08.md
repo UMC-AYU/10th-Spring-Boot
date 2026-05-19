@@ -50,3 +50,18 @@ Stateless (상태 비저장)
 - 대표적으로 단방향으로 데이터를 전송하는 UDP 프로토콜 방식이 있다.
 
 ### 미션
+Spring Security를 적용하고 회원가입 API를 구현
+
+![signup1](images/chapter08/signup1.png)
+![signup2](images/chapter08/signup2.png)
+
+회원가입 API는 Public API, 그 이외의 API는 Private API로 설정 (exceptionHandling을 구현해 인증, 인가 실패 시 응답이 통일)
+
+![certification_fail](images/chapter08/certification_fail.png)
+![certification_success](images/chapter08/certification_success.png)
+
+비밀번호 BCrypt 적용
+하나 해시 적용 안된 건 이전에 사용한 생용자라서 적용이 안됐습니다.
+
+![BCrypt](images/chapter08/BCrypt.png)
+

@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -22,7 +23,7 @@ public class SecurityConfig {
             "/swagger-ui/**",
             "/swagger-resources/**",
             "/v3/api-docs/**",
-            "/auth/**"
+            "/auth/signup"   // 회원가입만 Public, 나머지는 Private
     };
 
     @Bean
@@ -33,6 +34,7 @@ public class SecurityConfig {
                         .requestMatchers(allowUris).permitAll()  // Public API
                         .anyRequest().authenticated()             // Private API
                 )
+                .httpBasic(Customizer.withDefaults())  // Swagger 로그인 테스트를 위한 추가
                 .formLogin(form -> form
                         .defaultSuccessUrl("/swagger-ui/index.html", true)
                         .permitAll()
@@ -47,6 +49,10 @@ public class SecurityConfig {
                         .authenticationEntryPoint(customEntryPoint())     // 401 응답 통일
                 );
         return http.build();
+
+
+
+
     }
 
     @Bean
