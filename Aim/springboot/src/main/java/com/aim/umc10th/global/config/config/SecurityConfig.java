@@ -18,6 +18,10 @@ import org.springframework.security.web.SecurityFilterChain;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
+    // [수정] 직접 new로 생성하지 않고, 스프링 컨테이너가 관리하는 빈을 주입받는다.
+    private final CustomEntryPoint customEntryPoint;
+    private final CustomAccessDenied customAccessDenied;
+
 
     private final String[] allowUris = {
             //Swagger 허용
@@ -41,8 +45,8 @@ public class SecurityConfig {
                 // 미션 요구사항: 인증/인가 실패 시 작성한 커스텀 응답 양식(ApiResponse)으로 통일
                 // 예외 상황 핸들러
                 .exceptionHandling(exception -> exception
-                        .authenticationEntryPoint(new CustomEntryPoint()) //401 에러 핸들러 매핑
-                        .accessDeniedHandler(new CustomAccessDenied()) //403 에러 핸들러 매핑
+                        .authenticationEntryPoint(customEntryPoint) //401 에러 핸들러 매핑
+                        .accessDeniedHandler(customAccessDenied) //403 에러 핸들러 매핑
                 )
 
                 //authorizeHttpRequests()는 HTTP 요청에 대한 접근 제어를 설정한다.
