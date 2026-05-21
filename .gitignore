@@ -202,3 +202,12 @@ gradle-app.setting
 *.hprof
 
 # End of https://www.toptal.com/developers/gitignore/api/gradle,java,intellij+all,windows,macos
+
+### DB Config ###
+src/main/resources/application.yml
+
+# 이미지 파일 제외 (확장자 기준)
+*.jpg
+*.png
+*.gif
+*.jpeg
