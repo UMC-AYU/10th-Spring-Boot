@@ -1,5 +1,6 @@
 package org.example.swaggerpr.review.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.swaggerpr.global.apiPayload.ApiResponse;
 import org.example.swaggerpr.global.apiPayload.code.BaseSuccessCode;
@@ -18,10 +19,18 @@ public class ReviewController {
     public ApiResponse<ReviewResDto.CreateReviewResultDto> createReview(
             @PathVariable Long missionid,
             @RequestParam Long userId,
-            @RequestBody ReviewReqDto.CreateReviewDto dto
+            @Valid @RequestBody ReviewReqDto.CreateReviewDto dto
     ) {
         // 명세서는 Authorization Header에서 회원을 식별하지만 현재 프로젝트에는 인증 모듈이 없기 때문에 userId query parameter로 회원을 임시 식별한다.
         BaseSuccessCode code = ReviewSuccessCode.OK;
         return ApiResponse.onSuccess(code, reviewService.createReview(userId, missionid, dto));
+    }
+
+    @PostMapping("/users/reviews")
+    public ApiResponse<ReviewResDto.MyReviewCursorListDto> getMyReviews(
+            @Valid @RequestBody ReviewReqDto.MyReviewCursorDto dto
+    ) {
+        BaseSuccessCode code = ReviewSuccessCode.OK;
+        return ApiResponse.onSuccess(code, reviewService.getMyReviews(dto));
     }
 }
