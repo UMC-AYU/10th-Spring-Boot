@@ -1,6 +1,8 @@
 package com.example.umc10th.global.security.service;
 
 import com.example.umc10th.domain.member.entity.Member;
+import com.example.umc10th.domain.member.exception.MemberException;
+import com.example.umc10th.domain.member.exception.code.MemberErrorCode;
 import com.example.umc10th.domain.member.repository.MemberRepository;
 import com.example.umc10th.global.security.entity.AuthMember;
 import lombok.RequiredArgsConstructor;

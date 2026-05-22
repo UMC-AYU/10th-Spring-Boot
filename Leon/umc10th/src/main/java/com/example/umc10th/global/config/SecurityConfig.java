@@ -2,6 +2,7 @@ package com.example.umc10th.global.config;
 
 import com.example.umc10th.global.security.handler.CustomAccessDenied;
 import com.example.umc10th.global.security.handler.CustomEntryPoint;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -12,8 +13,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @EnableWebSecurity
+@RequiredArgsConstructor
 @Configuration
 public class SecurityConfig {
+
+    private final CustomAccessDenied customAccessDenied;
+    private final CustomEntryPoint customEntryPoint;
 
     private final String[] allowUris = {
             "/swagger-ui/**",
@@ -35,8 +40,8 @@ public class SecurityConfig {
                         .permitAll()
                 )
                 .exceptionHandling(exception -> exception
-                        .authenticationEntryPoint(new CustomEntryPoint())
-                        .accessDeniedHandler(new CustomAccessDenied())
+                        .authenticationEntryPoint(customEntryPoint)
+                        .accessDeniedHandler(customAccessDenied)
                 )
                 .logout(logout -> logout
                         .logoutUrl("/logout")
