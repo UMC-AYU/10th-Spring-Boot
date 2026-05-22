@@ -60,7 +60,10 @@ public class ReviewReqDto {
 
         @AssertTrue(message = "cursorId is required when cursorScore is provided.")
         public boolean isValidScoreCursor() {
-            return cursorScore == null || cursorId != null;
+            if (sortBy == SortBy.SCORE) {
+                return (cursorId == null && cursorScore == null) || (cursorId != null && cursorScore != null);
+            }
+            return cursorScore == null;
         }
     }
 

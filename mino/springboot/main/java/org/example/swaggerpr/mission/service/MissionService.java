@@ -3,6 +3,8 @@ package org.example.swaggerpr.mission.service;
 import lombok.RequiredArgsConstructor;
 import org.example.swaggerpr.global.apiPayload.code.GeneralErrorCode;
 import org.example.swaggerpr.global.apiPayload.exception.ProjectException;
+import org.example.swaggerpr.member.exception.code.MemberErrorCode;
+import org.example.swaggerpr.member.repository.MemberRepository;
 import org.example.swaggerpr.mission.converter.MissionConverter;
 import org.example.swaggerpr.mission.dto.MissionReqDto;
 import org.example.swaggerpr.mission.dto.MissionResDto;
@@ -27,9 +29,11 @@ public class MissionService {
     private final MemberMissionRepository memberMissionRepository;
     private final MissionRepository missionRepository;
     private final RegionRepository regionRepository;
+    private final MemberRepository memberRepository;
 
     @Transactional(readOnly = true)
     public MissionResDto.MissionListDto getUserMissions(Long userId, String status, int page, int size) {
+        validateMemberExists(userId);
         Status parsedStatus = parseNullableStatus(status);
         Page<MemberMission> memberMissions = memberMissionRepository.findPageByMemberIdAndStatus(
                 userId,
@@ -41,6 +45,7 @@ public class MissionService {
 
     @Transactional(readOnly = true)
     public MissionResDto.MissionListDto getChallengingMissions(MissionReqDto.ChallengingMissionSearchDto dto) {
+        validateMemberExists(dto.getUserId());
         Page<MemberMission> memberMissions = memberMissionRepository.findPageByMemberIdAndStatus(
                 dto.getUserId(),
                 Status.CHALLENGING,
@@ -51,6 +56,7 @@ public class MissionService {
 
     @Transactional(readOnly = true)
     public MissionResDto.NearbyMissionListDto getNearbyMissions(Long userId, Long regionId, int page, int size) {
+        validateMemberExists(userId);
         Region region = regionRepository.findById(regionId)
                 .orElseThrow(() -> new ProjectException(GeneralErrorCode.NOT_FOUND));
 
@@ -88,6 +94,12 @@ public class MissionService {
             return Status.valueOf(status);
         } catch (IllegalArgumentException | NullPointerException e) {
             throw new ProjectException(GeneralErrorCode.BAD_REQUEST);
+        }
+    }
+
+    private void validateMemberExists(Long userId) {
+        if (!memberRepository.existsById(userId)) {
+            throw new ProjectException(MemberErrorCode.NOT_FOUND);
         }
     }
 }

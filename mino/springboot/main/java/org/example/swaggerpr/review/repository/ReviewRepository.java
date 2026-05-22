@@ -9,6 +9,8 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface ReviewRepository extends JpaRepository<Review, Long> {
+    boolean existsByMemberIdAndMissionId(Long memberId, Long missionId);
+
     @Query("""
             select r
             from Review r

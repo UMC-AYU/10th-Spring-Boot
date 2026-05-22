@@ -10,17 +10,20 @@ import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.example.swaggerpr.global.apiPayload.ApiResponse;
 import org.example.swaggerpr.global.apiPayload.code.BaseSuccessCode;
+import org.example.swaggerpr.global.apiPayload.code.GeneralErrorCode;
+import org.example.swaggerpr.global.apiPayload.exception.ProjectException;
+import org.example.swaggerpr.global.security.CustomUserDetails;
 import org.example.swaggerpr.review.converter.ReviewConverter;
 import org.example.swaggerpr.review.dto.ReviewReqDto;
 import org.example.swaggerpr.review.dto.ReviewResDto;
 import org.example.swaggerpr.review.exception.code.ReviewSuccessCode;
 import org.example.swaggerpr.review.service.ReviewService;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -36,12 +39,11 @@ public class ReviewController {
     public ApiResponse<ReviewResDto.CreateReviewResultDto> createReview(
             @Parameter(description = "Mission ID")
             @PathVariable @NotNull @Min(1) Long missionId,
-            @Parameter(description = "Member ID")
-            @RequestHeader("X-USER-ID") @NotNull @Min(1) Long userId,
-            @Valid @RequestBody ReviewReqDto.CreateReviewDto dto
+            @Valid @RequestBody ReviewReqDto.CreateReviewDto dto,
+            @AuthenticationPrincipal CustomUserDetails userDetails
     ) {
         BaseSuccessCode code = ReviewSuccessCode.OK;
-        return ApiResponse.onSuccess(code, reviewService.createReview(userId, missionId, dto));
+        return ApiResponse.onSuccess(code, reviewService.createReview(userDetails.getMemberId(), missionId, dto));
     }
 
     @Operation(summary = "Get my reviews")
@@ -56,11 +58,19 @@ public class ReviewController {
             @Parameter(description = "Page size")
             @RequestParam(defaultValue = "10") @Min(1) Integer size,
             @Parameter(description = "Sort field")
-            @RequestParam(defaultValue = "ID") @NotNull ReviewReqDto.SortBy sortBy
+            @RequestParam(defaultValue = "ID") @NotNull ReviewReqDto.SortBy sortBy,
+            @AuthenticationPrincipal CustomUserDetails userDetails
     ) {
+        validateCurrentUser(userId, userDetails);
         BaseSuccessCode code = ReviewSuccessCode.OK;
         ReviewReqDto.MyReviewCursorDto dto =
                 ReviewConverter.toMyReviewCursorDto(userId, cursorId, cursorScore, size, sortBy);
         return ApiResponse.onSuccess(code, reviewService.getMyReviews(dto));
+    }
+
+    private void validateCurrentUser(Long userId, CustomUserDetails userDetails) {
+        if (!userId.equals(userDetails.getMemberId())) {
+            throw new ProjectException(GeneralErrorCode.FORBIDDEN);
+        }
     }
 }

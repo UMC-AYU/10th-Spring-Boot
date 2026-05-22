@@ -16,6 +16,7 @@ import org.example.swaggerpr.review.converter.ReviewConverter;
 import org.example.swaggerpr.review.dto.ReviewReqDto;
 import org.example.swaggerpr.review.dto.ReviewResDto;
 import org.example.swaggerpr.review.entity.Review;
+import org.example.swaggerpr.review.exception.code.ReviewErrorCode;
 import org.example.swaggerpr.review.repository.ReviewRepository;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -42,6 +43,10 @@ public class ReviewService {
 
         if (memberMission.getStatus() != Status.COMPLETE) {
             throw new ProjectException(GeneralErrorCode.BAD_REQUEST);
+        }
+
+        if (reviewRepository.existsByMemberIdAndMissionId(userId, missionId)) {
+            throw new ProjectException(ReviewErrorCode.ALREADY_EXISTS);
         }
 
         Review review = reviewRepository.save(ReviewConverter.toReview(member, mission, dto));

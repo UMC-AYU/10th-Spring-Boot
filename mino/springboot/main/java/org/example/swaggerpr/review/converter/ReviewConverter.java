@@ -22,6 +22,7 @@ public class ReviewConverter {
     public static Review toReview(Member member, Mission mission, ReviewReqDto.CreateReviewDto dto) {
         return Review.builder()
                 .member(member)
+                .mission(mission)
                 .store(mission.getStore())
                 .score(dto.getScore())
                 .content(dto.getContent())

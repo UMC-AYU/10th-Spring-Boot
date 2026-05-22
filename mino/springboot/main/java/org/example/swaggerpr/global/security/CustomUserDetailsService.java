@@ -3,7 +3,6 @@ package org.example.swaggerpr.global.security;
 import lombok.RequiredArgsConstructor;
 import org.example.swaggerpr.member.entity.Member;
 import org.example.swaggerpr.member.repository.MemberRepository;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -19,9 +18,6 @@ public class CustomUserDetailsService implements UserDetailsService {
         Member member = memberRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("Member not found."));
 
-        return User.withUsername(member.getEmail())
-                .password(member.getPassword())
-                .roles("USER")
-                .build();
+        return new CustomUserDetails(member);
     }
 }
