@@ -68,6 +68,17 @@ public class ReviewController {
         return ApiResponse.onSuccess(code, reviewService.getMyReviews(dto));
     }
 
+    @Operation(summary = "Get my reviews by request body")
+    @PostMapping("/users/reviews")
+    public ApiResponse<ReviewResDto.MyReviewCursorListDto> getMyReviews(
+            @Valid @RequestBody ReviewReqDto.MyReviewCursorDto dto,
+            @AuthenticationPrincipal AuthMember authMember
+    ) {
+        validateCurrentUser(dto.getUserId(), authMember);
+        BaseSuccessCode code = ReviewSuccessCode.OK;
+        return ApiResponse.onSuccess(code, reviewService.getMyReviews(dto));
+    }
+
     private void validateCurrentUser(Long userId, AuthMember authMember) {
         if (!userId.equals(authMember.getMember().getId())) {
             throw new ProjectException(GeneralErrorCode.FORBIDDEN);

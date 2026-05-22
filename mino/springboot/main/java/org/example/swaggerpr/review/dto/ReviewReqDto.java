@@ -15,13 +15,13 @@ public class ReviewReqDto {
     @Getter
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class CreateReviewDto {
-        @Schema(description = "리뷰 점수", example = "5")
+        @Schema(description = "Review score", example = "5")
         @NotNull(message = "score is required.")
         @Min(value = 1, message = "score must be greater than or equal to 1.")
         @Max(value = 5, message = "score must be less than or equal to 5.")
         private Integer score;
 
-        @Schema(description = "리뷰 내용", example = "맛있고 친절했어요.")
+        @Schema(description = "Review content", example = "Delicious and kind service.")
         @NotBlank(message = "content is required.")
         private String content;
     }
@@ -37,24 +37,24 @@ public class ReviewReqDto {
             this.sortBy = sortBy;
         }
 
-        @Schema(description = "회원 ID", example = "1")
+        @Schema(description = "Member ID", example = "1")
         @NotNull(message = "userId is required.")
         private Long userId;
 
-        @Schema(description = "다음 페이지 조회 기준 리뷰 ID", example = "10")
+        @Schema(description = "Review ID cursor for the next page", example = "10")
         private Long cursorId;
 
-        @Schema(description = "점수 정렬 시 다음 페이지 조회 기준 점수", example = "4")
+        @Schema(description = "Review score cursor for score sorting", example = "4")
         @Min(value = 1, message = "cursorScore must be greater than or equal to 1.")
         @Max(value = 5, message = "cursorScore must be less than or equal to 5.")
         private Integer cursorScore;
 
-        @Schema(description = "페이지 크기", example = "10")
+        @Schema(description = "Page size", example = "10")
         @NotNull(message = "size is required.")
         @Min(value = 1, message = "size must be greater than or equal to 1.")
         private Integer size = 10;
 
-        @Schema(description = "리뷰 정렬 기준", example = "ID")
+        @Schema(description = "Review sort field", example = "ID")
         @NotNull(message = "sortBy is required.")
         private SortBy sortBy = SortBy.ID;
 

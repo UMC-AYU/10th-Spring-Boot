@@ -69,6 +69,17 @@ public class MissionService {
         return MissionConverter.toNearbyMissionListDto(region.getName(), missions);
     }
 
+    @Transactional(readOnly = true)
+    public MissionResDto.MissionListDto getOngoingMissions(MissionReqDto.OngoingMissionSearchDto dto) {
+        validateMemberExists(dto.getUserId());
+        Page<MemberMission> memberMissions = memberMissionRepository.findPageByMemberIdAndStatus(
+                dto.getUserId(),
+                Status.CHALLENGING,
+                PageRequest.of(dto.getPage(), dto.getSize())
+        );
+        return MissionConverter.toMissionListDto(memberMissions);
+    }
+
     @Transactional
     public void completeMission(Long userId, Long missionId, MissionReqDto.CompleteMissionDto dto) {
         MemberMission memberMission = memberMissionRepository.findByMemberIdAndMissionId(userId, missionId)
