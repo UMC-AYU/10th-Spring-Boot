@@ -12,7 +12,7 @@ import org.example.swaggerpr.global.apiPayload.ApiResponse;
 import org.example.swaggerpr.global.apiPayload.code.BaseSuccessCode;
 import org.example.swaggerpr.global.apiPayload.code.GeneralErrorCode;
 import org.example.swaggerpr.global.apiPayload.exception.ProjectException;
-import org.example.swaggerpr.global.security.CustomUserDetails;
+import org.example.swaggerpr.global.security.AuthMember;
 import org.example.swaggerpr.review.converter.ReviewConverter;
 import org.example.swaggerpr.review.dto.ReviewReqDto;
 import org.example.swaggerpr.review.dto.ReviewResDto;
@@ -40,10 +40,10 @@ public class ReviewController {
             @Parameter(description = "Mission ID")
             @PathVariable @NotNull @Min(1) Long missionId,
             @Valid @RequestBody ReviewReqDto.CreateReviewDto dto,
-            @AuthenticationPrincipal CustomUserDetails userDetails
+            @AuthenticationPrincipal AuthMember authMember
     ) {
         BaseSuccessCode code = ReviewSuccessCode.OK;
-        return ApiResponse.onSuccess(code, reviewService.createReview(userDetails.getMemberId(), missionId, dto));
+        return ApiResponse.onSuccess(code, reviewService.createReview(authMember.getMember().getId(), missionId, dto));
     }
 
     @Operation(summary = "Get my reviews")
@@ -59,17 +59,17 @@ public class ReviewController {
             @RequestParam(defaultValue = "10") @Min(1) Integer size,
             @Parameter(description = "Sort field")
             @RequestParam(defaultValue = "ID") @NotNull ReviewReqDto.SortBy sortBy,
-            @AuthenticationPrincipal CustomUserDetails userDetails
+            @AuthenticationPrincipal AuthMember authMember
     ) {
-        validateCurrentUser(userId, userDetails);
+        validateCurrentUser(userId, authMember);
         BaseSuccessCode code = ReviewSuccessCode.OK;
         ReviewReqDto.MyReviewCursorDto dto =
                 ReviewConverter.toMyReviewCursorDto(userId, cursorId, cursorScore, size, sortBy);
         return ApiResponse.onSuccess(code, reviewService.getMyReviews(dto));
     }
 
-    private void validateCurrentUser(Long userId, CustomUserDetails userDetails) {
-        if (!userId.equals(userDetails.getMemberId())) {
+    private void validateCurrentUser(Long userId, AuthMember authMember) {
+        if (!userId.equals(authMember.getMember().getId())) {
             throw new ProjectException(GeneralErrorCode.FORBIDDEN);
         }
     }

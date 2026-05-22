@@ -11,7 +11,7 @@ import org.example.swaggerpr.global.apiPayload.ApiResponse;
 import org.example.swaggerpr.global.apiPayload.code.BaseSuccessCode;
 import org.example.swaggerpr.global.apiPayload.code.GeneralErrorCode;
 import org.example.swaggerpr.global.apiPayload.exception.ProjectException;
-import org.example.swaggerpr.global.security.CustomUserDetails;
+import org.example.swaggerpr.global.security.AuthMember;
 import org.example.swaggerpr.member.dto.MemberReqDto;
 import org.example.swaggerpr.member.dto.MemberResDto;
 import org.example.swaggerpr.member.exception.code.MemberSuccessCode;
@@ -50,9 +50,9 @@ public class MemberController {
     public ApiResponse<MemberResDto.MyPageDto> getMyPage(
             @Parameter(description = "Member ID")
             @PathVariable @NotNull @Min(1) Long userId,
-            @AuthenticationPrincipal CustomUserDetails userDetails
+            @AuthenticationPrincipal AuthMember authMember
     ) {
-        validateCurrentUser(userId, userDetails);
+        validateCurrentUser(userId, authMember);
         BaseSuccessCode code = MemberSuccessCode.OK;
         return ApiResponse.onSuccess(code, memberService.getMyPage(userId));
     }
@@ -66,14 +66,14 @@ public class MemberController {
             @RequestParam(defaultValue = "0") @Min(0) Integer page,
             @Parameter(description = "Page size")
             @RequestParam(defaultValue = "10") @Min(1) Integer size,
-            @AuthenticationPrincipal CustomUserDetails userDetails
+            @AuthenticationPrincipal AuthMember authMember
     ) {
         BaseSuccessCode code = MissionSuccessCode.OK;
-        return ApiResponse.onSuccess(code, missionService.getNearbyMissions(userDetails.getMemberId(), regionId, page, size));
+        return ApiResponse.onSuccess(code, missionService.getNearbyMissions(authMember.getMember().getId(), regionId, page, size));
     }
 
-    private void validateCurrentUser(Long userId, CustomUserDetails userDetails) {
-        if (!userId.equals(userDetails.getMemberId())) {
+    private void validateCurrentUser(Long userId, AuthMember authMember) {
+        if (!userId.equals(authMember.getMember().getId())) {
             throw new ProjectException(GeneralErrorCode.FORBIDDEN);
         }
     }

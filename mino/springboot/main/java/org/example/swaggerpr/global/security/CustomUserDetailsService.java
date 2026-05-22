@@ -18,6 +18,6 @@ public class CustomUserDetailsService implements UserDetailsService {
         Member member = memberRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("Member not found."));
 
-        return new CustomUserDetails(member);
+        return new AuthMember(member);
     }
 }

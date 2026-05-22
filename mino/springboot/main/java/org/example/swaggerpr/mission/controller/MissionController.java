@@ -11,7 +11,7 @@ import org.example.swaggerpr.global.apiPayload.ApiResponse;
 import org.example.swaggerpr.global.apiPayload.code.BaseSuccessCode;
 import org.example.swaggerpr.global.apiPayload.code.GeneralErrorCode;
 import org.example.swaggerpr.global.apiPayload.exception.ProjectException;
-import org.example.swaggerpr.global.security.CustomUserDetails;
+import org.example.swaggerpr.global.security.AuthMember;
 import org.example.swaggerpr.mission.converter.MissionConverter;
 import org.example.swaggerpr.mission.dto.MissionReqDto;
 import org.example.swaggerpr.mission.dto.MissionResDto;
@@ -44,9 +44,9 @@ public class MissionController {
             @RequestParam(defaultValue = "0") @Min(0) Integer page,
             @Parameter(description = "Page size")
             @RequestParam(defaultValue = "10") @Min(1) Integer size,
-            @AuthenticationPrincipal CustomUserDetails userDetails
+            @AuthenticationPrincipal AuthMember authMember
     ) {
-        validateCurrentUser(userId, userDetails);
+        validateCurrentUser(userId, authMember);
         BaseSuccessCode code = MissionSuccessCode.OK;
         MissionReqDto.ChallengingMissionSearchDto dto =
                 MissionConverter.toChallengingMissionSearchDto(userId, page, size);
@@ -64,9 +64,9 @@ public class MissionController {
             @RequestParam(defaultValue = "0") @Min(0) Integer page,
             @Parameter(description = "Page size")
             @RequestParam(defaultValue = "10") @Min(1) Integer size,
-            @AuthenticationPrincipal CustomUserDetails userDetails
+            @AuthenticationPrincipal AuthMember authMember
     ) {
-        validateCurrentUser(userId, userDetails);
+        validateCurrentUser(userId, authMember);
         BaseSuccessCode code = MissionSuccessCode.OK;
         return ApiResponse.onSuccess(code, missionService.getUserMissions(userId, status, page, size));
     }
@@ -79,16 +79,16 @@ public class MissionController {
             @Parameter(description = "Mission ID")
             @PathVariable @NotNull @Min(1) Long missionId,
             @Valid @RequestBody MissionReqDto.CompleteMissionDto dto,
-            @AuthenticationPrincipal CustomUserDetails userDetails
+            @AuthenticationPrincipal AuthMember authMember
     ) {
-        validateCurrentUser(userId, userDetails);
+        validateCurrentUser(userId, authMember);
         BaseSuccessCode code = MissionSuccessCode.OK;
         missionService.completeMission(userId, missionId, dto);
         return ApiResponse.onSuccess(code, null);
     }
 
-    private void validateCurrentUser(Long userId, CustomUserDetails userDetails) {
-        if (!userId.equals(userDetails.getMemberId())) {
+    private void validateCurrentUser(Long userId, AuthMember authMember) {
+        if (!userId.equals(authMember.getMember().getId())) {
             throw new ProjectException(GeneralErrorCode.FORBIDDEN);
         }
     }
