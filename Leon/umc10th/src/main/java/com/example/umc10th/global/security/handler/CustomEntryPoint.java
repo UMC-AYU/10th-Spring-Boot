@@ -34,7 +34,7 @@ public class CustomEntryPoint implements AuthenticationEntryPoint {
         response.getWriter().write(
                 objectMapper.writeValueAsString(
                         ApiResponse.onFailure(
-                                GeneralErrorCode.FORBIDDEN,
+                                GeneralErrorCode.UNAUTHORIZED,
                                 null
                         )
                 )
