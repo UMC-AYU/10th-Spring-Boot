@@ -9,6 +9,16 @@ import org.example.swaggerpr.review.entity.Review;
 import java.time.LocalDateTime;
 
 public class ReviewConverter {
+    public static ReviewReqDto.MyReviewCursorDto toMyReviewCursorDto(
+            Long userId,
+            Long cursorId,
+            Integer cursorScore,
+            Integer size,
+            ReviewReqDto.SortBy sortBy
+    ) {
+        return new ReviewReqDto.MyReviewCursorDto(userId, cursorId, cursorScore, size, sortBy);
+    }
+
     public static Review toReview(Member member, Mission mission, ReviewReqDto.CreateReviewDto dto) {
         return Review.builder()
                 .member(member)

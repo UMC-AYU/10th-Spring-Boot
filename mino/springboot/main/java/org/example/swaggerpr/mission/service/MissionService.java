@@ -1,6 +1,7 @@
 package org.example.swaggerpr.mission.service;
 
 import lombok.RequiredArgsConstructor;
+import org.example.swaggerpr.global.apiPayload.code.GeneralErrorCode;
 import org.example.swaggerpr.global.apiPayload.exception.ProjectException;
 import org.example.swaggerpr.mission.converter.MissionConverter;
 import org.example.swaggerpr.mission.dto.MissionReqDto;
@@ -11,16 +12,21 @@ import org.example.swaggerpr.mission.enums.Status;
 import org.example.swaggerpr.mission.exception.code.MissionErrorCode;
 import org.example.swaggerpr.mission.repository.MemberMissionRepository;
 import org.example.swaggerpr.mission.repository.MissionRepository;
+import org.example.swaggerpr.store.entity.Region;
+import org.example.swaggerpr.store.repository.RegionRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDate;
 
 @Service
 @RequiredArgsConstructor
 public class MissionService {
     private final MemberMissionRepository memberMissionRepository;
     private final MissionRepository missionRepository;
+    private final RegionRepository regionRepository;
 
     @Transactional(readOnly = true)
     public MissionResDto.MissionListDto getUserMissions(Long userId, String status, int page, int size) {
@@ -44,12 +50,17 @@ public class MissionService {
     }
 
     @Transactional(readOnly = true)
-    public MissionResDto.NearbyMissionListDto getNearbyMissions(Long regionId, int page, int size) {
+    public MissionResDto.NearbyMissionListDto getNearbyMissions(Long userId, Long regionId, int page, int size) {
+        Region region = regionRepository.findById(regionId)
+                .orElseThrow(() -> new ProjectException(GeneralErrorCode.NOT_FOUND));
+
         Page<Mission> missions = missionRepository.findAvailableMissionsByRegionId(
+                userId,
                 regionId,
+                LocalDate.now(),
                 PageRequest.of(page, size)
         );
-        return MissionConverter.toNearbyMissionListDto(missions);
+        return MissionConverter.toNearbyMissionListDto(region.getName(), missions);
     }
 
     @Transactional
@@ -59,7 +70,7 @@ public class MissionService {
         Status nextStatus = parseRequiredStatus(dto.getStatus());
 
         if (memberMission.getStatus() != Status.CHALLENGING || nextStatus != Status.COMPLETE) {
-            throw new ProjectException(MissionErrorCode.BAD_REQUEST);
+            throw new ProjectException(GeneralErrorCode.BAD_REQUEST);
         }
 
         memberMission.updateStatus(nextStatus);
@@ -76,7 +87,7 @@ public class MissionService {
         try {
             return Status.valueOf(status);
         } catch (IllegalArgumentException | NullPointerException e) {
-            throw new ProjectException(MissionErrorCode.BAD_REQUEST);
+            throw new ProjectException(GeneralErrorCode.BAD_REQUEST);
         }
     }
 }

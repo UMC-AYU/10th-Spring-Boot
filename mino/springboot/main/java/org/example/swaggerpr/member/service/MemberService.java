@@ -24,7 +24,7 @@ public class MemberService {
     public MemberResDto.SignupResultDto signup(MemberReqDto.SignupDto dto) {
         memberRepository.findByEmail(dto.getEmail())
                 .ifPresent(member -> {
-                    throw new ProjectException(MemberErrorCode.BAD_REQUEST);
+                    throw new ProjectException(MemberErrorCode.EMAIL_ALREADY_EXISTS);
                 });
 
         String encodedPassword = passwordEncoder.encode(dto.getPassword());

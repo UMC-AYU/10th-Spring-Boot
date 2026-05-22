@@ -1,5 +1,6 @@
 package org.example.swaggerpr.global.apiPayload.handler;
 
+import jakarta.validation.ConstraintViolationException;
 import org.example.swaggerpr.global.apiPayload.ApiResponse;
 import org.example.swaggerpr.global.apiPayload.code.BaseErrorCode;
 import org.example.swaggerpr.global.apiPayload.code.GeneralErrorCode;
@@ -9,18 +10,17 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
-@RestControllerAdvice // 전역적으로 예외를 처리할 수 있도록 해주는 어노테이션 JSON으로 응답
+@RestControllerAdvice
 public class GeneralExceptionAdvice {
 
-    // 프로젝트에서 발생한 예외 처리
     @ExceptionHandler(ProjectException.class)
-    public ResponseEntity<ApiResponse<Void>> handleProjectException(
-            ProjectException e
-    ) {
+    public ResponseEntity<ApiResponse<Void>> handleProjectException(ProjectException e) {
         BaseErrorCode errorCode = e.getErrorCode();
         return ResponseEntity.status(errorCode.getStatus())
                 .body(ApiResponse.onFailure(errorCode, null));
@@ -38,11 +38,31 @@ public class GeneralExceptionAdvice {
         return ResponseEntity.status(code.getStatus())
                 .body(ApiResponse.onFailure(code, errors));
     }
-    // 그 외의 정의되지 않은 모든 예외 처리
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ApiResponse<String>> handleException(
-            Exception ex
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<ApiResponse<String>> handleConstraintViolation(
+            ConstraintViolationException ex
     ) {
+        BaseErrorCode code = GeneralErrorCode.VALIDATION_FAILED;
+        String message = ex.getConstraintViolations().stream()
+                .map(violation -> violation.getPropertyPath() + ": " + violation.getMessage())
+                .collect(Collectors.joining(", "));
+        return ResponseEntity.status(code.getStatus())
+                .body(ApiResponse.onFailure(code, message));
+    }
+
+    @ExceptionHandler({
+            IllegalArgumentException.class,
+            MethodArgumentTypeMismatchException.class
+    })
+    public ResponseEntity<ApiResponse<String>> handleBadRequest(Exception ex) {
+        BaseErrorCode code = GeneralErrorCode.BAD_REQUEST;
+        return ResponseEntity.status(code.getStatus())
+                .body(ApiResponse.onFailure(code, ex.getMessage()));
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ApiResponse<String>> handleException(Exception ex) {
         BaseErrorCode code = GeneralErrorCode.INTERNAL_SERVER_ERROR;
         return ResponseEntity.status(code.getStatus())
                 .body(ApiResponse.onFailure(code, ex.getMessage()));
