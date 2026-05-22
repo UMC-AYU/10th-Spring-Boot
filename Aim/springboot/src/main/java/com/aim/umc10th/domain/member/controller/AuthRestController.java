@@ -2,8 +2,10 @@ package com.aim.umc10th.domain.member.controller;
 
 import com.aim.umc10th.domain.member.dto.MemberRequestDTO;
 import com.aim.umc10th.domain.member.dto.MemberResponseDTO;
+import com.aim.umc10th.domain.member.service.MemberService;
 import com.aim.umc10th.global.config.apiPayload.ApiResponse;
 import com.aim.umc10th.global.config.apiPayload.code.GeneralSuccessCode;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,16 +18,17 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 @RequestMapping("/auth")
 public class AuthRestController {
+
+    private final MemberService memberService;
+
     //회원가입 API
     @PostMapping("/signup")
-    public ApiResponse<MemberResponseDTO.joinResultDTO>join(
-            @RequestBody MemberRequestDTO.joinDTO request
+    public ApiResponse<String>join(
+            @RequestBody @Valid MemberRequestDTO.joinDTO request
     ){
-        //가짜 응답 데이터
-        return ApiResponse.onSuccess(GeneralSuccessCode.OK, MemberResponseDTO.joinResultDTO.builder()
-                .memberId(1L)
-                .createdAt(LocalDateTime.now())
-                .build());
+        String result = memberService.createUser(request);
+
+        return ApiResponse.onSuccess(GeneralSuccessCode.OK, result);
     }
 
     //로그인 API

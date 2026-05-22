@@ -23,9 +23,11 @@ public enum GeneralErrorCode implements BaseErrorCode {
     MEMBER_NOT_FOUND(HttpStatus.NOT_FOUND, "MEMBER404","해당 회원이 존재하지 않습니다." ),
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR,
             "COMMON500_1",
-            "서버 에러...")
+            "서버 에러..."),
+    STORE_NOT_FOUND(HttpStatus.NOT_FOUND, "STORE4001", "해당하는 가게가 없습니다.");
 
-    ;
+
+
 
     private final HttpStatus status;
     private final String code;

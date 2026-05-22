@@ -1,4 +1,4 @@
-package com.aim.umc10th.global.config;
+package com.aim.umc10th.global.config.config;
 
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;

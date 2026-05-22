@@ -5,8 +5,12 @@ import com.aim.umc10th.domain.store.entity.Store;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 @Entity
 @Getter
+@Setter
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
@@ -19,13 +23,16 @@ public class Mission extends BaseEntity {
     private Long id;
 
     @Column(nullable = false)
-    private Integer reward; //미션 포인트\
+    private Long reward; //미션 포인트
 
     @Column(nullable = false, length = 1000)
     private String missionSpec; //미션 내용
 
+    @Column(nullable = false)
+    private LocalDateTime deadline; //
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "store_id")
     private Store store;
-
 }
+
