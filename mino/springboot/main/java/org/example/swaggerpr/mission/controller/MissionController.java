@@ -22,7 +22,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -52,17 +51,6 @@ public class MissionController {
         MissionReqDto.ChallengingMissionSearchDto dto =
                 MissionConverter.toChallengingMissionSearchDto(userId, page, size);
         return ApiResponse.onSuccess(code, missionService.getChallengingMissions(dto));
-    }
-
-    @Operation(summary = "Get ongoing missions")
-    @PostMapping("/missions/ongoing")
-    public ApiResponse<MissionResDto.MissionListDto> getMyOngoingMissions(
-            @Valid @RequestBody MissionReqDto.OngoingMissionSearchDto dto,
-            @AuthenticationPrincipal AuthMember authMember
-    ) {
-        validateCurrentUser(dto.getUserId(), authMember);
-        BaseSuccessCode code = MissionSuccessCode.OK;
-        return ApiResponse.onSuccess(code, missionService.getOngoingMissions(dto));
     }
 
     @Operation(summary = "Get member missions")
