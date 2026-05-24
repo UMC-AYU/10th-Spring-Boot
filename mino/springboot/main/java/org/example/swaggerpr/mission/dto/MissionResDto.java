@@ -10,20 +10,40 @@ public class MissionResDto {
     @Builder
     @Getter
     public static class MissionPreviewDto {
-        private Long missionId;
-        private String storeName;
-        private String content;
-        private Integer rewardPoint;
-        private String status;
+        private final Long missionId;
+        private final String storeName;
+        private final String content;
+        private final Integer rewardPoint;
+        private final String status;
     }
 
     @Builder
     @Getter
     public static class MissionListDto {
-        private List<MissionPreviewDto> missions;
-        private Integer page;
-        private Integer size;
-        private Long totalElements;
-        private Integer totalPages;
+        private final List<MissionPreviewDto> missions;
+        private final Integer page;
+        private final Integer size;
+        private final Long totalElements;
+        private final Integer totalPages;
+    }
+
+    @Builder
+    @Getter
+    public static class NearbyMissionDto {
+        private final Long missionId;
+        private final String storeName;
+        private final String content;
+        private final Integer rewardPoint;
+    }
+
+    @Builder
+    @Getter
+    public static class NearbyMissionListDto {
+        private final String regionName;
+        private final List<NearbyMissionDto> missions;
+        private final Integer page;
+        private final Integer size;
+        private final Long totalElements;
+        private final Integer totalPages;
     }
 }

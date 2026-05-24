@@ -8,11 +8,8 @@ import org.example.swaggerpr.member.dto.MemberResDto;
 import org.example.swaggerpr.member.entity.Member;
 import org.example.swaggerpr.member.exception.code.MemberErrorCode;
 import org.example.swaggerpr.member.repository.MemberRepository;
-import org.example.swaggerpr.mission.entity.Mission;
 import org.example.swaggerpr.mission.repository.MemberMissionRepository;
-import org.example.swaggerpr.mission.repository.MissionRepository;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,34 +18,25 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberService {
     private final MemberRepository memberRepository;
     private final MemberMissionRepository memberMissionRepository;
-    private final MissionRepository missionRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Transactional
     public MemberResDto.SignupResultDto signup(MemberReqDto.SignupDto dto) {
-        memberRepository.findByEmail(dto.getEmail()) // 이메일 중복 확인
+        memberRepository.findByEmail(dto.getEmail())
                 .ifPresent(member -> {
-                    throw new ProjectException(MemberErrorCode.BAD_REQUEST);
+                    throw new ProjectException(MemberErrorCode.EMAIL_ALREADY_EXISTS);
                 });
 
-        Member member = memberRepository.save(MemberConverter.toMember(dto)); // 객체 생성
-        return MemberConverter.toSignupResultDto(member); // 결과 반환 컨버터->DTO
+        String encodedPassword = passwordEncoder.encode(dto.getPassword());
+        Member member = memberRepository.save(MemberConverter.toMember(dto, encodedPassword));
+        return MemberConverter.toSignupResultDto(member);
     }
 
     @Transactional(readOnly = true)
     public MemberResDto.MyPageDto getMyPage(Long userId) {
-        Member member = memberRepository.findById(userId) // 회원 조회
+        Member member = memberRepository.findById(userId)
                 .orElseThrow(() -> new ProjectException(MemberErrorCode.NOT_FOUND));
-        long missionCount = memberMissionRepository.countByMemberId(userId); // 회원의 미션 수 조회
-        return MemberConverter.toMyPageDto(member, missionCount); // 결과 반환
-    }
-
-    @Transactional(readOnly = true)
-    public MemberResDto.HomeDto getHome(Long regionId, int page, int size) {
-        // 명세서의 /users/home에는 query parameter가 없지만, "현재 선택된 지역"을 알 방법이 없어 regionId를 추가했다.
-        Page<Mission> missions = missionRepository.findAvailableMissionsByRegionId(
-                regionId,
-                PageRequest.of(page, size)
-        );
-        return MemberConverter.toHomeDto(missions);
+        long missionCount = memberMissionRepository.countByMemberId(userId);
+        return MemberConverter.toMyPageDto(member, missionCount);
     }
 }

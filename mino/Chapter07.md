@@ -82,7 +82,7 @@ Spring 프레임워크에서 빈(Bean)의 유효성을 검증할 때 사용하�
 
 
 ## 미션
-   
+
 ### 내가 진행중인 미션 조회하기 (오프셋 기반 페이지네이션으로 응답하기, 사용자 ID는 Request Body에서 받기 하드코딩 X)
 ![img.png](images/Chapter7-img1.png)
 ### 수정 전

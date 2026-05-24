@@ -69,7 +69,7 @@ DDD에서는 코드가 비즈니스 로직과 도메인을 직접 표현하기 �
 
 DDD vs 도메인형 아키텍처
 
-![Chapter4_image1.png](../images/Chapter4_image1.png)
+![Chapter4_image1.png](images/Chapter4_image1.png)
 
 ### 왜 DTO를 사용하는가?
 계층 간, 혹은 프로세스 간에 데이터를 전달하기 위해 사용하는 순수한 객체입니다.
@@ -97,16 +97,16 @@ Converter는 **HTTP 요청의 문자열 파라미터를 숫자, 객체, 날짜
 - **타입 안전성 및 예외 처리:** 타입 불일치 시 자동으로 예외를 발생 시키거나 바인딩 오류를 처리하여 애플리케이션의 안정성을 높입니다.
 ## 3.  미션
 ### ERD
-![Chapter4_image5.png](../images/Chapter4_image5.png)
+![Chapter4_image5.png](images/Chapter4_image5.png)
 ### 내가 설계한 아키텍쳐 구조
 #### 도메인을 큰 틀로 구분 
 - 사용자(Member, MemberFoodCategory, FoodCategory)
 - 미션(Mission, MemberMission, Store, Region) *미션을 다른 도메인으로 구분할 수 있으나 가게마다 미션이 존재하고 미션을 다른 도메인으로 만들어도 추후에 확장성측면에서 불필요하다는 생각해서 미션 도메인에 속하게 설계
 - 리뷰(Review) *추후에 사진이나 부가 기능의 추가 가능성이 있어 다른 도메인으로 구분
 
-![Chapter4_image2.png](../images/Chapter4_image2.png)
-![Chapter4_image3.png](../images/Chapter4_image3.png)
-![Chapter4_image4.png](../images/Chapter4_image4.png)
+![Chapter4_image2.png](images/Chapter4_image2.png)
+![Chapter4_image3.png](images/Chapter4_image3.png)
+![Chapter4_image4.png](images/Chapter4_image4.png)
 ## 4.  워크북의 내용을 제외한 추가 정보 학습의 경우 md파일에 추가 작성합니다.
 ### MSA의 정의
 MSA는 소프트웨어를 작고 독립적으로 배포 가능한 서비스들의 집합으로 구성하는 아키텍처 스타일입니다. 

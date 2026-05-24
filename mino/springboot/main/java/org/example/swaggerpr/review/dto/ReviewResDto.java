@@ -11,29 +11,29 @@ public class ReviewResDto {
     @Builder
     @Getter
     public static class CreateReviewResultDto {
-        private Long reviewId;
-        private Long missionId;
-        private Integer score;
-        private String content;
+        private final Long reviewId;
+        private final Long missionId;
+        private final Integer score;
+        private final String content;
     }
 
     @Builder
     @Getter
     public static class MyReviewPreviewDto {
-        private Long reviewId;
-        private String storeName;
-        private Integer score;
-        private String content;
-        private LocalDateTime createdAt;
+        private final Long reviewId;
+        private final String storeName;
+        private final Integer score;
+        private final String content;
+        private final LocalDateTime createdAt;
     }
 
     @Builder
     @Getter
     public static class MyReviewCursorListDto {
-        private List<MyReviewPreviewDto> reviews;
-        private Long nextCursorId;
-        private Float nextCursorScore;
-        private Integer size;
-        private Boolean hasNext;
+        private final List<MyReviewPreviewDto> reviews;
+        private final Long nextCursorId;
+        private final Integer nextCursorScore;
+        private final Integer size;
+        private final Boolean hasNext;
     }
 }

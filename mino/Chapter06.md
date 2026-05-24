@@ -233,13 +233,13 @@ JPQL에서 성능 최적화를 위해 제공하는 기능으로, 연관된 엔�
 - 적절한 DTO나 페이징을 반환하거나 메서드를 호출
 ### 리뷰 작성하는 쿼리, 사진의 경우는 일단 배제
 
-![Chapter06image3.png](../images/Chapter06image3.png)
+![Chapter06image3.png](images/Chapter06image3.png)
 ### 내가 진행중, 진행 완료한 미션 모아서 보는 쿼리(페이징 포함)
 
-![Chapter06image4.png](../images/Chapter06image4.png)
+![Chapter06image4.png](images/Chapter06image4.png)
 ### 마이 페이지 화면 쿼리
 
-![Chapter06image1.png](../images/Chapter06image1.png)
+![Chapter06image1.png](images/Chapter06image1.png)
 ### 홈 화면 쿼리 (현재 선택 된 지역에서 도전이 가능한 미션 목록, 페이징 포함)
 
-![Chapter06image2.png](../images/Chapter06image2.png)
+![Chapter06image2.png](images/Chapter06image2.png)

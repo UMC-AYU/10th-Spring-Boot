@@ -106,7 +106,7 @@ Record
    - **독립성**: 외부 클래스의 인스턴스 멤버에 직접 접근할 수 없으며, 독립적인 라이프사이클을 가집니다.
    - **메모리 효율**: 비정적 중첩 클래스(Inner Class)와 달리 외부 클래스에 대한 참조를 유지하지 않아 메모리 누수 위험이 적습니다.
    - **유연성**: 일반 클래스처럼 가변(Mutable) 필드를 가질 수 있고 상속도 가능합니다.
-![Chapter05image1.png](../images/Chapter05image1.png)
+![Chapter05image1.png](images/Chapter05image1.png)
 
 ### 제네릭이란?
 데이터형식에 의존하지 않고, 하나의 값이 여러 다른 데이터 타입들을 가질 수 있도록 하는 방법입니다.
@@ -138,7 +138,7 @@ class FruitBox<T> {
 
 **@ControllerAdvice와의 차이점**
 
-![Chapter05image1.png](../images/Chapter05image1.png)
+![Chapter05image1.png](images/Chapter05image1.png)
 
 ### Optional이란?
 - Optional이란?
@@ -189,16 +189,16 @@ class FruitBox<T> {
 ### 프로젝트 세팅을 마친 상태에서 응답 통일 객체, 에러 핸들링할 객체를 생성하기
 
     
-![Chapter05image3.png](../images/Chapter05image3.png)
+![Chapter05image3.png](images/Chapter05image3.png)
 - 응답 통일 객체와 에러 핸들링 객체는 워크북과 동일한 구조로 작성하였습니다.
-![Chapter05image4.png](../images/Chapter05image4.png)
+![Chapter05image4.png](images/Chapter05image4.png)
 - GeneralExceptionAdvice에서 사용하는 INTERNAL_SERVER_ERROR는 워크북에 따로 나와있지 않아 추가해주었습니다.
-![Chapter05image5.png](../images/Chapter05image5.png)
+![Chapter05image5.png](images/Chapter05image5.png)
 - ApiResponse에서 성공한 경우의 응답은 실패의 경우와 동일하게 제네릭 클래스를 사용하여 구현하였습니다.
 
 ### 2주차 미션으로 진행한 API 명세서를 기반으로 Controller, DTO 제작하기
 - 2주차 api 명세서
-![chapter2명세서.png](../images/chapter2%EB%AA%85%EC%84%B8%EC%84%9C.png)
+![chapter2명세서.png](images/chapter2명세서.png)
 
 - 각 도메인의 Dto는 static으로 구현하였고 비즈니스로직별 필요한 데이터 들을 묶어서 구현 
 - 컨트롤러에서는 공통된 endpoint는 RequestMapping으로 분리 기능별로 필요한 Res,Req Dto를 주고 받음(추후 Service 구현 필요)
