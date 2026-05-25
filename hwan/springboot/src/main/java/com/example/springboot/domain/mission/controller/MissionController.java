@@ -8,6 +8,9 @@ import com.example.springboot.global.apiPayload.ApiResponse;
 import com.example.springboot.global.apiPayload.code.BaseSuccessCode;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -21,10 +24,10 @@ public class MissionController {
     public ApiResponse<MissionResDTO.MissionList> getMissions(
             @RequestParam Long memberId,
             @RequestParam String status,
-            @RequestParam(defaultValue = "1") Integer page
+            @PageableDefault(sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable
     ) {
         BaseSuccessCode code = MissionSuccessCode.MISSION_LIST_OK;
-        return ApiResponse.onSuccess(code, missionService.getMissions(memberId, status, page));
+        return ApiResponse.onSuccess(code, missionService.getMissions(memberId, status, pageable));
     }
 
     // PATCH /users/missions/{userMissionId}

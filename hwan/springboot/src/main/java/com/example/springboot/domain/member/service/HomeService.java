@@ -8,7 +8,7 @@ import com.example.springboot.domain.mission.entity.Mission;
 import com.example.springboot.domain.mission.repository.MissionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,11 +20,10 @@ public class HomeService {
     private final MemberRepository memberRepository;
 
     @Transactional(readOnly = true)
-    public HomeResDTO.HomeInfo getHomeInfo(Long memberId, Long regionId, Integer page) {
+    public HomeResDTO.HomeInfo getHomeInfo(Long memberId, Long regionId, Pageable pageable) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new RuntimeException("회원을 찾을 수 없습니다."));
 
-        PageRequest pageable = PageRequest.of(page - 1, 10);
         Page<Mission> missionPage = missionRepository.findByRegionId(regionId, pageable);
 
         int completedCount = (int) member.getMissions().stream()
