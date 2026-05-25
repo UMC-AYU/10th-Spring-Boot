@@ -3,6 +3,8 @@ package com.example.umc10th.domain.mission.dto;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.util.List;
+
 public class MissionResponseDTO {
 
     @Getter
@@ -11,5 +13,7 @@ public class MissionResponseDTO {
         private Long missionId;
         private String title;
         private String status;
+        private String store;
     }
+
 }

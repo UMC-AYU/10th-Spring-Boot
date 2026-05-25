@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 public class MemberResponseDTO {
 
@@ -33,9 +34,33 @@ public class MemberResponseDTO {
 
     @Getter
     @Builder
+    public static class Pagination<T> {
+        private List<T> data;
+        private Integer pageNumber;
+        private Integer pageSize;
+        private Long totalElements;
+        private Integer totalPages;
+        private Boolean isLast;
+    }
+
+    @Getter
+    @Builder
     public static class MyReview {
         private Long reviewId;
         private String content;
         private BigDecimal rating;
+    }
+
+    @Getter
+    @Builder
+    public static class CursorPage<T> {
+
+        private List<T> data;
+
+        private Boolean hasNext;
+
+        private Long nextCursorId;
+
+        private BigDecimal nextCursorRating;
     }
 }

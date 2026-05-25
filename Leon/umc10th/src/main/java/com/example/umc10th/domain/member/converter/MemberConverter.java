@@ -5,6 +5,7 @@ import com.example.umc10th.domain.member.dto.MemberResponseDTO;
 import com.example.umc10th.domain.member.entity.Member;
 import com.example.umc10th.domain.mission.entity.mapping.MemberMission;
 import com.example.umc10th.domain.review.entity.Review;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
@@ -46,6 +47,17 @@ public class MemberConverter {
         return MemberResponseDTO.MyMission.builder()
                 .missionId(mm.getMission().getId())
                 .status(mm.getStatus().name())
+                .build();
+    }
+
+    public <T> MemberResponseDTO.Pagination<T> toPagination(Page<T> page) {
+        return MemberResponseDTO.Pagination.<T>builder()
+                .data(page.getContent())
+                .pageNumber(page.getNumber())
+                .pageSize(page.getSize())
+                .totalElements(page.getTotalElements())
+                .totalPages(page.getTotalPages())
+                .isLast(page.isLast())
                 .build();
     }
 

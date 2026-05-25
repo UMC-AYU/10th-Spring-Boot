@@ -5,6 +5,8 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -19,6 +21,7 @@ public class Mission {
     private String title;
     private String description;
     private Integer rewardPoint;
+    private LocalDateTime createdAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "store_id")

@@ -13,10 +13,11 @@ import java.util.Optional;
 
 public interface MemberMissionRepository extends JpaRepository<MemberMission, Long> {
 
-    @Query("SELECT mm FROM MemberMission mm " +
-            "JOIN FETCH mm.mission m " +
-            "WHERE mm.member.id = :memberId " +
-            "AND (:status IS NULL OR mm.status = :status)")
+    @Query("""
+        SELECT mm FROM MemberMission mm
+        WHERE mm.member.id = :memberId
+        AND (:status IS NULL OR mm.status = :status)
+    """)
     Page<MemberMission> findMyMissions(
             @Param("memberId") Long memberId,
             @Param("status") MissionStatus status,

@@ -231,25 +231,25 @@ public void updateMissionWithCommit() {
 
 ## 홈 화면 API
 
-![API_home_page.png](images/API_home_page.png)
+![API_home_page.png](images/week6/API_home_page.png)
 
 ---
 
 ## 내가 진행중, 진행 완료한 미션 모아서 보는 API (페이징 포함)
 
-![API_member_mission_list_by_status_1.png](images/API_member_mission_list_by_status_1.png)
-![API_member_mission_list_by_status_2.png](images/API_member_mission_list_by_status_2.png)
-![API_member_mission_list_by_status_3.png](images/API_member_mission_list_by_status_3.png)
+![API_member_mission_list_by_status_1.png](images/week6/API_member_mission_list_by_status_1.png)
+![API_member_mission_list_by_status_2.png](images/week6/API_member_mission_list_by_status_2.png)
+![API_member_mission_list_by_status_3.png](images/week6/API_member_mission_list_by_status_3.png)
 
 ---
 
 ## 마이 페이지 API
 
-![PI_my_page.png](images/API_my_page.png)
+![API_my_page.png](images/week6/API_my_page.png)
 
 ---
 
 ## 리뷰 작성 API
 
-![API_create_review_1.png](images/API_create_review_1.png)
-![API_create_review_2.png](images/API_create_review_2.png)
+![API_create_review_1.png](images/week6/API_create_review_1.png)
+![API_create_review_2.png](images/week6/API_create_review_2.png)

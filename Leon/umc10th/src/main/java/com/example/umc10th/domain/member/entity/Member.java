@@ -2,6 +2,7 @@ package com.example.umc10th.domain.member.entity;
 
 import com.example.umc10th.domain.mission.entity.mapping.MemberMission;
 import com.example.umc10th.domain.review.entity.Review;
+import com.example.umc10th.global.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -15,7 +16,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Table(name = "member")
-public class Member {
+public class Member extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,8 +33,10 @@ public class Member {
     private Integer point;
 
     @OneToMany(mappedBy = "member")
+    @Builder.Default
     private List<MemberMission> memberMissions = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
+    @Builder.Default
     private List<Review> reviews = new ArrayList<>();
 }

@@ -507,7 +507,7 @@ member + term + foodCategory
 
 ### ERD
 
-![umc10th_workbook_ERD.png](images/umc10th_workbook_ERD.png)
+![umc10th_workbook_ERD.png](images/week4/umc10th_workbook_ERD.png)
 
 ### 변경점
 - term, member_term 테이블 추가
@@ -515,12 +515,12 @@ member + term + foodCategory
 
 ### member 도메인
 
-![member_domain_structure.png](images/member_domain_structure.png)
+![member_domain_structure.png](images/week4/member_domain_structure.png)
 
 ### mission 도메인
 
-![mission_domain_structure.png](images/mission_domain_structure.png)
+![mission_domain_structure.png](images/week4/mission_domain_structure.png)
 
 ### review 도메인
 
-![review_domain_structure.png](images/review_domain_structure.png)
+![review_domain_structure.png](images/week4/review_domain_structure.png)

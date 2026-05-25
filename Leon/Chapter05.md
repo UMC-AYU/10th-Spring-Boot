@@ -185,11 +185,11 @@ User user = userRepository.findById(id)
 
 ## 응답 통일 / 에러 핸들링 객체
 
-![global_package.png](images/global_package.png)
+![global_package.png](images/week5/global_package.png)
 
 워크북과 동일
 
-![member_exception_package.png](images/member_exception_package.png)
+![member_exception_package.png](images/week5/member_exception_package.png)
 
 ---
 

@@ -2,18 +2,19 @@ package com.example.umc10th.domain.member.service;
 
 import com.example.umc10th.domain.member.dto.MemberResponseDTO;
 import com.example.umc10th.global.enums.MissionStatus;
-import org.springframework.data.domain.Page;
+import com.example.umc10th.global.enums.ReviewSortType;
 import org.springframework.data.domain.Pageable;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public interface UserService {
 
     MemberResponseDTO.GetMyInfo getMyInfo(Long memberId);
 
-    Page<MemberResponseDTO.MyMission> getMyMissions(Long memberId, MissionStatus status, Pageable pageable);
+    MemberResponseDTO.Pagination<MemberResponseDTO.MyMission> getMyMissions(Long memberId, MissionStatus status, Pageable pageable);
 
-    List<MemberResponseDTO.MyReview> getMyReviews(Long memberId);
+    MemberResponseDTO.CursorPage<MemberResponseDTO.MyReview> getMyReviews(Long memberId, Long cursorId, BigDecimal cursorRating, Integer size, ReviewSortType sort);
 
     void setPreferences(Long memberId, List<Long> categoryIds);
 }

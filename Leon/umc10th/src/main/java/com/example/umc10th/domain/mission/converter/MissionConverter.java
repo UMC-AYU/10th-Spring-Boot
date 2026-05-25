@@ -13,6 +13,7 @@ public class MissionConverter {
         return MissionResponseDTO.MissionInfo.builder()
                 .missionId(mission.getId())
                 .title(mission.getTitle())
+                .store(mission.getStore().getName())
                 .build();
     }
 

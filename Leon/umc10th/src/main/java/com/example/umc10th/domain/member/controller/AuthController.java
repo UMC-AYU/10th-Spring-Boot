@@ -6,6 +6,7 @@ import com.example.umc10th.domain.member.exception.code.MemberSuccessCode;
 import com.example.umc10th.domain.member.service.AuthService;
 import com.example.umc10th.global.apiPayload.ApiResponse;
 import com.example.umc10th.global.apiPayload.code.BaseSuccessCode;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,7 +19,7 @@ public class AuthController {
 
     @PostMapping("/signup")
     public ApiResponse<MemberResponseDTO.GetMyInfo> signup(
-            @RequestBody MemberRequestDTO.Signup dto
+            @RequestBody @Valid MemberRequestDTO.Signup dto
     ) {
         BaseSuccessCode code = MemberSuccessCode.OK;
         return ApiResponse.onSuccess(code, authService.signup(dto));
@@ -26,7 +27,7 @@ public class AuthController {
 
     @PostMapping("/login")
     public ApiResponse<MemberResponseDTO.Login> login(
-            @RequestBody MemberRequestDTO.Login dto
+            @RequestBody @Valid MemberRequestDTO.Login dto
     ) {
         BaseSuccessCode code = MemberSuccessCode.OK;
         return ApiResponse.onSuccess(code, authService.login(dto));
