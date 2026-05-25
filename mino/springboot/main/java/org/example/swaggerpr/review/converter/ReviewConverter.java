@@ -14,4 +14,14 @@ public class ReviewConverter {
                 .content(review.getContent())
                 .build();
     }
+
+    public static ReviewResDto.MyReviewPreviewDto toMyReviewPreviewDto(Review review) {
+        return ReviewResDto.MyReviewPreviewDto.builder()
+                .reviewId(review.getId())
+                .storeName(review.getStore().getName())
+                .score(review.getScore().intValue())
+                .content(review.getContent())
+                .createdAt(review.getCreatedAt())
+                .build();
+    }
 }
