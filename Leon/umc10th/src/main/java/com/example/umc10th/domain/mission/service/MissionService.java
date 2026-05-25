@@ -11,15 +11,22 @@ import com.example.umc10th.domain.mission.entity.mapping.MemberMission;
 import com.example.umc10th.domain.mission.exception.MissionException;
 import com.example.umc10th.domain.mission.exception.code.MissionErrorCode;
 import com.example.umc10th.domain.store.repository.RegionRepository;
+import com.example.umc10th.global.enums.MissionSortType;
 import com.example.umc10th.global.enums.MissionStatus;
 import com.example.umc10th.domain.mission.repository.MemberMissionRepository;
 import com.example.umc10th.domain.mission.repository.MissionRepository;
 import com.example.umc10th.domain.mission.service.MissionService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+
+import static com.example.umc10th.global.sort.SortUtil.getMissionSort;
 
 @Service
 @RequiredArgsConstructor
@@ -33,13 +40,22 @@ public class MissionService{
 
     private final MissionConverter missionConverter;
 
-    public List<MissionResponseDTO.MissionInfo> getMissions(MissionStatus status) {
+    public MissionResponseDTO.Pagination<MissionResponseDTO.MissionInfo> getMissions(
+            MissionSortType sort,
+            Pageable pageable
+    ) {
 
-        List<Mission> missions = missionRepository.findAll();
+        Pageable sortedPageable = PageRequest.of(
+                pageable.getPageNumber(),
+                pageable.getPageSize(),
+                getMissionSort(sort)
+        );
 
-        return missions.stream()
-                .map(missionConverter::toMissionInfo)
-                .toList();
+        Page<Mission> page = missionRepository.findAll(sortedPageable);
+
+        return missionConverter.toPagination(
+                page.map(missionConverter::toMissionInfo)
+        );
     }
 
     @Transactional
@@ -75,15 +91,31 @@ public class MissionService{
         memberMission.complete();
     }
 
-    public List<MissionResponseDTO.MissionInfo> getMissionsByRegion(Long regionId) {
+    public MissionResponseDTO.Pagination<MissionResponseDTO.MissionInfo> getMissionsByRegion(
+            Long regionId,
+            MissionSortType sort,
+            Pageable pageable
+    ) {
 
         regionRepository.findById(regionId)
-                .orElseThrow(() -> new MissionException(MissionErrorCode.REGION_NOT_FOUND));
+                .orElseThrow(() ->
+                        new MissionException(MissionErrorCode.REGION_NOT_FOUND));
 
-        List<Mission> missions = missionRepository.findByStoreRegionId(regionId);
+        Pageable sortedPageable = PageRequest.of(
+                pageable.getPageNumber(),
+                pageable.getPageSize(),
+                getMissionSort(sort)
+        );
 
-        return missions.stream()
-                .map(missionConverter::toMissionInfo)
-                .toList();
+        Page<Mission> page =
+                missionRepository.findByStoreRegionId(
+                        regionId,
+                        sortedPageable
+                );
+
+        return missionConverter.toPagination(
+                page.map(missionConverter::toMissionInfo)
+        );
     }
+
 }

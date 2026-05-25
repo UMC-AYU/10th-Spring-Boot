@@ -4,11 +4,9 @@ import com.example.umc10th.domain.member.dto.MemberRequestDTO;
 import com.example.umc10th.domain.member.dto.MemberResponseDTO;
 import com.example.umc10th.domain.member.entity.Member;
 import com.example.umc10th.domain.mission.entity.mapping.MemberMission;
-import com.example.umc10th.domain.review.entity.Review;
+import com.example.umc10th.global.security.dto.OAuthDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
-
-import java.math.BigDecimal;
 
 @Component
 public class MemberConverter {
@@ -24,11 +22,24 @@ public class MemberConverter {
         );
     }
 
-    public MemberResponseDTO.Login toLogin(Member member) {
+    public Member toMember(OAuthDTO dto) {
+        return Member.createOAuthMember(
+                dto.getSocialType(),
+                dto.getSocialUid(),
+                dto.getName(),
+                dto.getSocialEmail()
+        );
+    }
+
+    public MemberResponseDTO.Login toLogin(
+            Member member,
+            String accessToken
+    ) {
         return MemberResponseDTO.Login.builder()
                 .memberId(member.getId())
                 .email(member.getEmail())
                 .name(member.getName())
+                .accessToken(accessToken)
                 .build();
     }
 

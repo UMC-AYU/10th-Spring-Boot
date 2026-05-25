@@ -58,12 +58,4 @@ public class MemberRequestDTO {
         @NotEmpty
         private List<Long> categoryIds;
     }
-
-    @Getter
-    @NoArgsConstructor(access = AccessLevel.PROTECTED)
-    public static class MyMissionRequest {
-
-        @NotNull
-        private Long memberId;
-    }
 }

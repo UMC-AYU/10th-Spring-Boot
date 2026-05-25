@@ -23,6 +23,8 @@ public class MemberResponseDTO {
         private Long memberId;
         private String email;
         private String name;
+
+        private String accessToken;
     }
 
     @Getter
@@ -49,18 +51,5 @@ public class MemberResponseDTO {
         private Long reviewId;
         private String content;
         private BigDecimal rating;
-    }
-
-    @Getter
-    @Builder
-    public static class CursorPage<T> {
-
-        private List<T> data;
-
-        private Boolean hasNext;
-
-        private Long nextCursorId;
-
-        private BigDecimal nextCursorRating;
     }
 }

@@ -4,8 +4,10 @@ import com.example.umc10th.domain.member.enums.Gender;
 import com.example.umc10th.domain.mission.entity.mapping.MemberMission;
 import com.example.umc10th.domain.review.entity.Review;
 import com.example.umc10th.global.entity.BaseEntity;
+import com.example.umc10th.global.enums.SocialType;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -24,8 +26,12 @@ public class Member extends BaseEntity {
 
     private String password;
 
+    @Column(unique = true)
     private String socialUid;
-    private String socialType;
+
+    @Enumerated(EnumType.STRING)
+    private SocialType socialType;
+
     private String name;
 
     @Enumerated(EnumType.STRING)
@@ -52,15 +58,35 @@ public class Member extends BaseEntity {
             String email
     ) {
         Member member = new Member();
+
         member.password = password;
-        member.socialUid = "temp";
-        member.socialType = "temp";
+        member.socialUid = null;
+        member.socialType = null;
         member.name = name;
         member.gender = gender;
         member.birthDate = birthDate;
         member.address = address;
         member.email = email;
         member.point = 0;
+
+        return member;
+    }
+
+    public static Member createOAuthMember(
+            SocialType socialType,
+            String socialUid,
+            String name,
+            String email
+    ) {
+        Member member = new Member();
+
+        member.password = null;
+        member.socialType = socialType;
+        member.socialUid = socialUid;
+        member.name = name;
+        member.email = email;
+        member.point = 0;
+
         return member;
     }
 

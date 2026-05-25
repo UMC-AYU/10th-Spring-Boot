@@ -10,9 +10,9 @@ import com.example.umc10th.domain.member.exception.code.MemberErrorCode;
 import com.example.umc10th.domain.member.repository.FoodCategoryRepository;
 import com.example.umc10th.domain.member.repository.MemberFoodCategoryRepository;
 import com.example.umc10th.domain.member.repository.MemberRepository;
-import com.example.umc10th.domain.member.service.UserService;
 import com.example.umc10th.domain.mission.entity.mapping.MemberMission;
 import com.example.umc10th.domain.review.converter.ReviewConverter;
+import com.example.umc10th.global.enums.MissionSortType;
 import com.example.umc10th.global.enums.MissionStatus;
 import com.example.umc10th.domain.mission.repository.MemberMissionRepository;
 import com.example.umc10th.domain.review.entity.Review;
@@ -25,8 +25,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
 import java.util.List;
+
+import static com.example.umc10th.global.sort.SortUtil.getMissionSort;
+import static com.example.umc10th.global.sort.SortUtil.getReviewSort;
 
 @Service
 @RequiredArgsConstructor
@@ -42,70 +44,53 @@ public class UserService {
     private final MemberConverter memberConverter;
     private final ReviewConverter reviewConverter;
 
-    public MemberResponseDTO.GetMyInfo getMyInfo(Long memberId) {
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(() ->
-                        new MemberException(MemberErrorCode.MEMBER_NOT_FOUND));
-
+    public MemberResponseDTO.GetMyInfo getMyInfo(Member member) {
         return memberConverter.toMyInfo(member);
     }
 
-    public MemberResponseDTO.Pagination<MemberResponseDTO.MyMission> getMyMissions(Long memberId, MissionStatus status, Pageable pageable) {
+    public MemberResponseDTO.Pagination<MemberResponseDTO.MyMission> getMyMissions(
+            Long memberId,
+            MissionStatus status,
+            MissionSortType sort,
+            Pageable pageable
+    ) {
 
-        Page<MemberMission> page = memberMissionRepository.findMyMissions(memberId, status, pageable);
+        Pageable sortedPageable = PageRequest.of(
+                pageable.getPageNumber(),
+                pageable.getPageSize(),
+                getMissionSort(sort)
+        );
 
-        return memberConverter.toPagination(page.map(memberConverter::toMyMission));
+        Page<MemberMission> page =
+                memberMissionRepository.findMyMissions(
+                        memberId,
+                        status,
+                        sortedPageable
+                );
+
+        return memberConverter.toPagination(
+                page.map(memberConverter::toMyMission)
+        );
     }
 
-    public MemberResponseDTO.CursorPage<MemberResponseDTO.MyReview> getMyReviews(Long memberId, Long cursorId, BigDecimal cursorRating, Integer size, ReviewSortType sort) {
+    public MemberResponseDTO.Pagination<MemberResponseDTO.MyReview> getMyReviews(
+            Long memberId,
+            ReviewSortType sort,
+            Pageable pageable
+    ) {
 
-        List<Review> reviews;
+        Pageable sortedPageable = PageRequest.of(
+                pageable.getPageNumber(),
+                pageable.getPageSize(),
+                getReviewSort(sort)
+        );
 
-        if (sort == ReviewSortType.ID) {
+        Page<Review> page =
+                reviewRepository.findByMemberId(memberId, sortedPageable);
 
-            reviews = reviewRepository.findReviewsByCursorId(
-                    memberId,
-                    cursorId,
-                    PageRequest.of(0, size + 1)
-            );
-
-        } else {
-
-            reviews = reviewRepository.findReviewsByCursorRating(
-                    memberId,
-                    cursorRating,
-                    PageRequest.of(0, size + 1)
-            );
-        }
-
-        boolean hasNext = reviews.size() > size;
-
-        if (hasNext) {
-            reviews.remove(size);
-        }
-
-        List<MemberResponseDTO.MyReview> data =
-                reviews.stream()
-                        .map(reviewConverter::toMyReview)
-                        .toList();
-
-        Long nextCursorId = null;
-        BigDecimal nextCursorRating = null;
-
-        if (!reviews.isEmpty()) {
-
-            Review lastReview = reviews.getLast();
-
-            nextCursorId = lastReview.getId();
-            nextCursorRating = lastReview.getRating();
-        }
-
-        return MemberResponseDTO.CursorPage.<MemberResponseDTO.MyReview>builder()
-                .data(data)
-                .hasNext(hasNext)
-                .nextCursorId(nextCursorId)
-                .nextCursorRating(nextCursorRating)
-                .build();
+        return memberConverter.toPagination(
+                page.map(reviewConverter::toMyReview)
+        );
     }
 
     @Transactional
@@ -128,4 +113,5 @@ public class UserService {
             memberFoodCategoryRepository.save(mfc);
         }
     }
+
 }

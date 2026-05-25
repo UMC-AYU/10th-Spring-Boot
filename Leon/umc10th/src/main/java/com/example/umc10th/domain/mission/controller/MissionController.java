@@ -5,8 +5,14 @@ import com.example.umc10th.domain.mission.exception.code.MissionSuccessCode;
 import com.example.umc10th.domain.mission.service.MissionService;
 import com.example.umc10th.global.apiPayload.ApiResponse;
 import com.example.umc10th.global.apiPayload.code.BaseSuccessCode;
+import com.example.umc10th.global.enums.MissionSortType;
 import com.example.umc10th.global.enums.MissionStatus;
+import com.example.umc10th.global.security.entity.AuthMember;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,30 +25,39 @@ public class MissionController {
     private final MissionService missionService;
 
     @GetMapping
-    public ApiResponse<List<MissionResponseDTO.MissionInfo>> getMissions(
-            @RequestParam(required = false) MissionStatus status
+    public ApiResponse<MissionResponseDTO.Pagination<MissionResponseDTO.MissionInfo>> getMissions(
+            @RequestParam(defaultValue = "LATEST") MissionSortType sort,
+            @PageableDefault(size = 10) Pageable pageable
     ) {
+
         BaseSuccessCode code = MissionSuccessCode.MISSION_OK;
-        return ApiResponse.onSuccess(code, missionService.getMissions(status));
+
+        return ApiResponse.onSuccess(
+                code,
+                missionService.getMissions(
+                        sort,
+                        pageable
+                )
+        );
     }
 
     @PostMapping("/{missionId}/start")
     public ApiResponse<Void> startMission(
+            @AuthenticationPrincipal AuthMember member,
             @PathVariable Long missionId
     ) {
-        Long memberId = 1L;
         BaseSuccessCode code = MissionSuccessCode.MISSION_OK;
-        missionService.startMission(memberId, missionId);
+        missionService.startMission(member.getMember().getId(), missionId);
         return ApiResponse.onSuccess(code, null);
     }
 
     @PostMapping("/{missionId}/complete")
     public ApiResponse<Void> completeMission(
+            @AuthenticationPrincipal AuthMember member,
             @PathVariable Long missionId
     ) {
-        Long memberId = 1L;
         BaseSuccessCode code = MissionSuccessCode.MISSION_OK;
-        missionService.completeMission(memberId, missionId);
+        missionService.completeMission(member.getMember().getId(), missionId);
         return ApiResponse.onSuccess(code, null);
     }
 }
