@@ -1,4 +1,4 @@
-package org.example.swaggerpr.mission.entity;
+package org.example.swaggerpr.store.entity;
 
 import jakarta.persistence.*;
 import lombok.*;

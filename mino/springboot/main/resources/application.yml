@@ -2,6 +2,11 @@ spring:
   application:
     name: "swaggerer" # "umc10th"
 
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
   datasource:
     # ERD 기준 운영 DB는 MySQL이다. 다만 Swagger 확인/캡처 시 환경변수 없이도 실행되도록 H2 fallback을 둔다.
     # 실제 MySQL 사용 시 DB_DRIVER, DB_URL, DB_USER, DB_PW 환경변수를 지정하면 된다.
@@ -18,3 +23,12 @@ spring:
     properties:
       hibernate:
         format_sql: true
+
+jwt:
+  token:
+    # JWT 서명에 사용할 secret이다.
+    # 운영 환경에서는 기본값 대신 JWT_SECRET 환경변수로 더 안전한 값을 주입한다.
+    secretKey: ${JWT_SECRET:WXpOa2FGb3laR3hqYmtKNVRGZHdNMlJETVhwYVYwNTVXbGhSZEdFeVZqVk1WRWwzVFdwWmRFMUVWWFJOYWxFOQ==}
+    expiration:
+      # access token 만료 시간(ms). 기본값 3600000은 1시간이다.
+      access: ${JWT_EXPIRATION:3600000}

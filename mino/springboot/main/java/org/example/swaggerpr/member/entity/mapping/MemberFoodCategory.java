@@ -6,7 +6,7 @@ import org.example.swaggerpr.member.entity.FoodCategory;
 import org.example.swaggerpr.member.entity.Member;
 
 @Entity
-@Table(name = "member_prefer")
+@Table(name = "member_food_category")
 @Getter
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -14,7 +14,7 @@ import org.example.swaggerpr.member.entity.Member;
 public class MemberFoodCategory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "member_prefer_id")
+    @Column(name = "member_food_category_id")
     private Long id;
 
 

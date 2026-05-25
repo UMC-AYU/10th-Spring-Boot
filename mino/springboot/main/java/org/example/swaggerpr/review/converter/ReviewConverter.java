@@ -1,17 +1,51 @@
 package org.example.swaggerpr.review.converter;
 
+import org.example.swaggerpr.member.entity.Member;
+import org.example.swaggerpr.mission.entity.Mission;
+import org.example.swaggerpr.review.dto.ReviewReqDto;
 import org.example.swaggerpr.review.dto.ReviewResDto;
 import org.example.swaggerpr.review.entity.Review;
 
+import java.time.LocalDateTime;
+
 public class ReviewConverter {
+    public static ReviewReqDto.MyReviewCursorDto toMyReviewCursorDto(
+            Long userId,
+            Long cursorId,
+            Integer cursorScore,
+            Integer size,
+            ReviewReqDto.SortBy sortBy
+    ) {
+        return new ReviewReqDto.MyReviewCursorDto(userId, cursorId, cursorScore, size, sortBy);
+    }
+
+    public static Review toReview(Member member, Mission mission, ReviewReqDto.CreateReviewDto dto) {
+        return Review.builder()
+                .member(member)
+                .mission(mission)
+                .store(mission.getStore())
+                .score(dto.getScore())
+                .content(dto.getContent())
+                .createdAt(LocalDateTime.now())
+                .build();
+    }
+
     public static ReviewResDto.CreateReviewResultDto toCreateReviewResultDto(Review review, Long missionId) {
         return ReviewResDto.CreateReviewResultDto.builder()
                 .reviewId(review.getId())
-                // Review는 ERD상 Store와 직접 연결되고 Mission과는 직접 연결되지 않는다.
-                // 따라서 응답의 missionId는 API path variable 값을 그대로 사용한다.
                 .missionId(missionId)
-                .score(review.getScore().intValue())
+                .score(review.getScore())
                 .content(review.getContent())
+                .build();
+    }
+
+    public static ReviewResDto.MyReviewPreviewDto toMyReviewPreviewDto(Review review) {
+        return ReviewResDto.MyReviewPreviewDto.builder()
+                .reviewId(review.getId())
+                .storeName(review.getStore().getName())
+                .score(review.getScore())
+                .content(review.getContent())
+                .createdAt(review.getCreatedAt())
                 .build();
     }
 }
