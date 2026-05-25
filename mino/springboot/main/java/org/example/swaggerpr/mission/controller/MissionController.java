@@ -1,5 +1,6 @@
 package org.example.swaggerpr.mission.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.swaggerpr.global.apiPayload.ApiResponse;
 import org.example.swaggerpr.global.apiPayload.code.BaseSuccessCode;
@@ -14,6 +15,14 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/member")
 public class MissionController {
     private final MissionService missionService;
+
+    @PostMapping("/missions/ongoing")
+    public ApiResponse<MissionResDto.MissionListDto> getMyOngoingMissions(
+            @Valid @RequestBody MissionReqDto.OngoingMissionSearchDto dto
+    ) {
+        BaseSuccessCode code = MissionSuccessCode.OK;
+        return ApiResponse.onSuccess(code, missionService.getOngoingMissions(dto));
+    }
 
     @GetMapping("/{userid}/missions")
     public ApiResponse<MissionResDto.MissionListDto> userMissionPreview(
@@ -31,7 +40,7 @@ public class MissionController {
     public ApiResponse<Void> completeMission(
             @PathVariable Long userId,
             @PathVariable Long missionId,
-            @RequestBody MissionReqDto.CompleteMissionDto dto
+            @Valid @RequestBody MissionReqDto.CompleteMissionDto dto
     ) {
         BaseSuccessCode code = MissionSuccessCode.OK;
         return ApiResponse.onSuccess(code, missionService.completeMission(userId, missionId, dto));

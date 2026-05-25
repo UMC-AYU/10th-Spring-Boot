@@ -1,5 +1,6 @@
 package org.example.swaggerpr.member.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.swaggerpr.global.apiPayload.ApiResponse;
 import org.example.swaggerpr.global.apiPayload.code.BaseSuccessCode;
@@ -16,7 +17,7 @@ public class MemberController {
 
     @PostMapping("/auth/users/signup")
     public ApiResponse<MemberResDto.SignupResultDto> signup(
-            @RequestBody MemberReqDto.SignupDto dto
+            @Valid @RequestBody MemberReqDto.SignupDto dto
     ) {
         BaseSuccessCode code = MemberSuccessCode.OK;
         return ApiResponse.onSuccess(code, memberService.signup(dto));
