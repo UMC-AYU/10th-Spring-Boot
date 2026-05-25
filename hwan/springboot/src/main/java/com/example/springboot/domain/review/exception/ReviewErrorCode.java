@@ -9,9 +9,10 @@ import org.springframework.http.HttpStatus;
 @RequiredArgsConstructor
 public enum ReviewErrorCode implements BaseErrorCode {
 
-    STORE_NOT_FOUND(HttpStatus.NOT_FOUND, "REVIEW404_1", "해당 가게를 찾을 수 없습니다."),
     REVIEW_ALREADY_EXISTS(HttpStatus.CONFLICT, "REVIEW409_1", "이미 리뷰를 작성한 가게입니다."),
-    INVALID_RATING(HttpStatus.BAD_REQUEST, "REVIEW400_1", "별점은 0.5에서 5.0 사이여야 합니다.");
+    INVALID_RATING(HttpStatus.BAD_REQUEST, "REVIEW400_1", "별점은 0.5에서 5.0 사이여야 합니다."),
+    INVALID_CURSOR(HttpStatus.BAD_REQUEST, "REVIEW400_2", "잘못된 커서 형식입니다."),
+    INVALID_QUERY(HttpStatus.BAD_REQUEST, "REVIEW400_3", "정렬 기준은 id 또는 rating이어야 합니다.");
 
     private final HttpStatus status;
     private final String code;

@@ -6,7 +6,7 @@ public class MemberResDTO {
 
     @Builder
     public record SignUp(
-            Long userId,
+            Long memberId,
             String email,
             String name
     ) {}
@@ -17,5 +17,13 @@ public class MemberResDTO {
             String name,
             String email,
             Integer point
+    ) {}
+
+    @Builder
+    public record Login(
+            String accessToken,
+            Long memberId,
+            String email,
+            String name
     ) {}
 }

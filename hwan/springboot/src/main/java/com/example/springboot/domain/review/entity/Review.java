@@ -1,7 +1,7 @@
 package com.example.springboot.domain.review.entity;
 
 import com.example.springboot.domain.member.entity.Member;
-import com.example.springboot.domain.mission.entity.Store;
+import com.example.springboot.domain.store.entity.Store;
 import com.example.springboot.global.base.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;

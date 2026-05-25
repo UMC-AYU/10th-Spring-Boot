@@ -32,7 +32,16 @@ public class MemberConverter {
 
     public static MemberResDTO.SignUp toSignUpDTO(Member member) {
         return MemberResDTO.SignUp.builder()
-                .userId(member.getId())
+                .memberId(member.getId())
+                .email(member.getEmail())
+                .name(member.getName())
+                .build();
+    }
+
+    public static MemberResDTO.Login toLoginDTO(Member member, String accessToken) {
+        return MemberResDTO.Login.builder()
+                .accessToken(accessToken)
+                .memberId(member.getId())
                 .email(member.getEmail())
                 .name(member.getName())
                 .build();

@@ -1,4 +1,4 @@
-package com.example.springboot.domain.mission.entity;
+package com.example.springboot.domain.store.entity;
 
 import com.example.springboot.global.base.BaseEntity;
 import jakarta.persistence.*;

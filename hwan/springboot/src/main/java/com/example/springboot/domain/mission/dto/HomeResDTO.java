@@ -1,4 +1,4 @@
-package com.example.springboot.domain.member.dto;
+package com.example.springboot.domain.mission.dto;
 
 import lombok.Builder;
 
@@ -15,7 +15,7 @@ public class HomeResDTO {
 
     @Builder
     public record MissionPreview(
-            Long userMissionId,
+            Long missionId,
             String storeName,
             String category,
             String condition,

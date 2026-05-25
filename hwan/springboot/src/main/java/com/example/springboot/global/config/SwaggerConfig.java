@@ -16,25 +16,16 @@ public class SwaggerConfig {
     public OpenAPI swagger() {
         Info info = new Info().title("UMC10th").description("10기 Swagger").version("0.0.1");
 
-        // JWT 토큰 헤더 방식
         String jwtScheme = "JWT TOKEN";
-        // Basic Auth (Swagger 로그인 테스트용)
-        String basicScheme = "Basic Auth";
 
-        SecurityRequirement securityRequirement = new SecurityRequirement()
-                .addList(jwtScheme)
-                .addList(basicScheme);
+        SecurityRequirement securityRequirement = new SecurityRequirement().addList(jwtScheme);
 
         Components components = new Components()
                 .addSecuritySchemes(jwtScheme, new SecurityScheme()
                         .name(jwtScheme)
                         .type(SecurityScheme.Type.HTTP)
                         .scheme("Bearer")
-                        .bearerFormat("JWT"))
-                .addSecuritySchemes(basicScheme, new SecurityScheme()
-                        .name(basicScheme)
-                        .type(SecurityScheme.Type.HTTP)
-                        .scheme("basic"));  // Swagger 로그인 테스트를 위한 추가
+                        .bearerFormat("JWT"));
 
         return new OpenAPI()
                 .info(info)
