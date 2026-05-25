@@ -1,7 +1,6 @@
-package com.aim.umc10th.global.config.apiPayload;
+package com.aim.umc10th.global.apiPayload;
 
-import com.aim.umc10th.domain.review.dto.ReviewResponseDTO;
-import com.aim.umc10th.global.config.apiPayload.code.BaseSuccessCode;
+import com.aim.umc10th.global.apiPayload.code.BaseSuccessCode;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.AllArgsConstructor;

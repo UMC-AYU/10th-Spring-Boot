@@ -1,10 +1,8 @@
-package com.aim.umc10th.global.config.security.service;
+package com.aim.umc10th.global.security.service;
 
 import com.aim.umc10th.domain.member.entity.Member;
-import com.aim.umc10th.domain.member.exception.MemberException;
 import com.aim.umc10th.domain.member.repository.MemberRepository;
-import com.aim.umc10th.global.config.apiPayload.code.GeneralErrorCode;
-import com.aim.umc10th.global.config.security.entity.AuthMember;
+import com.aim.umc10th.global.security.entity.AuthMember;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

@@ -1,8 +1,8 @@
-package com.aim.umc10th.global.config.apiPayload.code;
+package com.aim.umc10th.global.apiPayload.code;
 
 import org.springframework.http.HttpStatus;
 
-public interface BaseSuccessCode {
+public interface BaseErrorCode {
     HttpStatus getStatus();
     String getCode();
     String getMessage();

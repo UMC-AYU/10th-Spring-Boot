@@ -1,15 +1,14 @@
 package com.aim.umc10th.domain.member.service;
 
-import ch.qos.logback.core.status.ErrorStatus;
 import com.aim.umc10th.domain.review.entity.Review;
-import com.aim.umc10th.global.config.apiPayload.code.GeneralErrorCode;
+import com.aim.umc10th.global.apiPayload.code.GeneralErrorCode;
 import com.aim.umc10th.domain.member.entity.Member;
 import com.aim.umc10th.domain.member.exception.MemberException;
 import com.aim.umc10th.domain.member.repository.MemberMissionRepository;
 import com.aim.umc10th.domain.member.repository.MemberRepository;
 import com.aim.umc10th.domain.mission.entity.MemberMission;
 import com.aim.umc10th.domain.review.repository.ReviewRepository;
-import com.aim.umc10th.global.config.apiPayload.exception.MemberHandler;
+import com.aim.umc10th.global.apiPayload.exception.MemberHandler;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.transaction.annotation.Transactional;

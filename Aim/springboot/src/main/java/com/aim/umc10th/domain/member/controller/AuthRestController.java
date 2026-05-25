@@ -3,8 +3,8 @@ package com.aim.umc10th.domain.member.controller;
 import com.aim.umc10th.domain.member.dto.MemberRequestDTO;
 import com.aim.umc10th.domain.member.dto.MemberResponseDTO;
 import com.aim.umc10th.domain.member.service.MemberService;
-import com.aim.umc10th.global.config.apiPayload.ApiResponse;
-import com.aim.umc10th.global.config.apiPayload.code.GeneralSuccessCode;
+import com.aim.umc10th.global.apiPayload.ApiResponse;
+import com.aim.umc10th.global.apiPayload.code.GeneralSuccessCode;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,10 +36,14 @@ public class AuthRestController {
     public ApiResponse<MemberResponseDTO.LoginResultDTO> login(
             @RequestBody MemberRequestDTO.LoginDTO request
     ){
-        //가짜 토큰 응답
+        //그 전에는 가짜 토큰이 나오도록 했는데, MemberService에 만든 진짜 로그인 로직을 호출한다.
+        String realToken = memberService.login(request.getEmail(), request.getPassword());
+
+        //서비스단에서 발행된 진짜 암호화 JWT 토큰을 응답에 실어준다.
         return ApiResponse.onSuccess(GeneralSuccessCode.OK, MemberResponseDTO.LoginResultDTO.builder()
-                .accessToken("dummy-access-token-12345")
+                .accessToken(realToken)
                 .issuedAt(LocalDateTime.now())
-                .build());
+                .build()
+        );
     }
 }

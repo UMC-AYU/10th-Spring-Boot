@@ -4,12 +4,9 @@ import com.aim.umc10th.domain.mission.converter.MissionConverter;
 import com.aim.umc10th.domain.mission.dto.MissionRequestDTO;
 import com.aim.umc10th.domain.mission.dto.MissionResponseDTO;
 import com.aim.umc10th.domain.mission.entity.Mission;
-import com.aim.umc10th.domain.store.dto.StoreRequestDTO;
-import com.aim.umc10th.domain.store.dto.StoreResponseDTO;
 import com.aim.umc10th.domain.store.service.StoreCommandService;
 import com.aim.umc10th.domain.store.service.StoreQueryService;
-import com.aim.umc10th.global.config.apiPayload.ApiResponse;
-import com.aim.umc10th.global.config.apiPayload.code.GeneralSuccessCode;
+import com.aim.umc10th.global.apiPayload.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
@@ -18,7 +15,6 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
-import java.time.LocalDateTime;
 
 @RestController
 @RequiredArgsConstructor

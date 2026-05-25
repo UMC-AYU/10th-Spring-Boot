@@ -10,14 +10,16 @@ import com.aim.umc10th.domain.member.service.MemberQueryService;
 import com.aim.umc10th.domain.member.service.MemberService; // 추가
 import com.aim.umc10th.domain.mission.entity.MemberMission;
 import com.aim.umc10th.domain.review.entity.Review;
-import com.aim.umc10th.global.config.apiPayload.ApiResponse;
-import com.aim.umc10th.global.config.apiPayload.code.BaseSuccessCode;
-import com.aim.umc10th.global.config.apiPayload.code.GeneralSuccessCode;
+import com.aim.umc10th.global.apiPayload.ApiResponse;
+import com.aim.umc10th.global.apiPayload.code.BaseSuccessCode;
+import com.aim.umc10th.global.apiPayload.code.GeneralSuccessCode;
+import com.aim.umc10th.global.security.entity.AuthMember;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Slice;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -57,6 +59,19 @@ public class MemberRestController {
         BaseSuccessCode code = MemberSuccessCode.OK;
         return ApiResponse.onSuccess(code, memberService.getInfo(dto));
     }
+
+    // [9주차] 헤더에 담긴 토큰을 가지고 사용자 정보를 리턴하는 마이페이지
+    @GetMapping("/V2/users/me")
+    public ApiResponse<MemberResponseDTO.GetInfo> getInfo(
+            @AuthenticationPrincipal AuthMember authMember
+    ){
+        BaseSuccessCode code = MemberSuccessCode.OK;
+
+        MemberResponseDTO.GetInfo result = memberService.getMeInfo(authMember);
+
+        return ApiResponse.onSuccess(code, result);
+    }
+
     //아무것도 받지 않은 경우
     @GetMapping("/test")
     public String test(){

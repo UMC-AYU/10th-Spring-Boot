@@ -1,11 +1,10 @@
-package com.aim.umc10th.global.config.apiPayload.handler;
+package com.aim.umc10th.global.apiPayload.handler;
 
-import com.aim.umc10th.global.config.apiPayload.ApiResponse;
-import com.aim.umc10th.global.config.apiPayload.code.BaseErrorCode;
-import com.aim.umc10th.global.config.apiPayload.code.GeneralErrorCode;
-import com.aim.umc10th.global.config.apiPayload.exception.ProjectException;
+import com.aim.umc10th.global.apiPayload.ApiResponse;
+import com.aim.umc10th.global.apiPayload.code.BaseErrorCode;
+import com.aim.umc10th.global.apiPayload.code.GeneralErrorCode;
+import com.aim.umc10th.global.apiPayload.exception.ProjectException;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;

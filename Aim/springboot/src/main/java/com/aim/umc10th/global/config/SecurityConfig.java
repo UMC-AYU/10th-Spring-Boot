@@ -1,7 +1,10 @@
-package com.aim.umc10th.global.config.config;
+package com.aim.umc10th.global.config;
 
-import com.aim.umc10th.global.config.security.CustomAccessDenied;
-import com.aim.umc10th.global.config.security.CustomEntryPoint;
+import com.aim.umc10th.global.security.CustomAccessDenied;
+import com.aim.umc10th.global.security.CustomEntryPoint;
+import com.aim.umc10th.global.security.filter.JwtAuthFilter;
+import com.aim.umc10th.global.security.service.CustomUserDetailsService;
+import com.aim.umc10th.global.security.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,6 +15,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @EnableWebSecurity //Spring Security 설정을 활성화시키는 역할을 한다.
 @Configuration
@@ -22,6 +26,10 @@ public class SecurityConfig {
     private final CustomEntryPoint customEntryPoint;
     private final CustomAccessDenied customAccessDenied;
 
+    // [9주차] JWT 필터 조립을 위해 필요한 유틸과 서비스를 주입받기
+    private final JwtUtil jwtUtil;
+    private final CustomUserDetailsService customUserDetailsService;
+
 
     private final String[] allowUris = {
             //Swagger 허용
@@ -30,6 +38,12 @@ public class SecurityConfig {
             "/v3/api-docs/**",
             "/auth/**"
     };
+
+    // [9주차] JWT 필터를 스프링 컨테이너의 Bean으로 등록하고 필요한 요소를 DI 해준다.
+    @Bean
+    public JwtAuthFilter jwtAuthFilter(){
+        return new JwtAuthFilter(jwtUtil, customUserDetailsService);
+    }
 
     @Bean
     //HttpSecurity 객체를 통해 다양한 보안설정을 구성할 수 있다.
@@ -75,6 +89,8 @@ public class SecurityConfig {
                         .logoutSuccessUrl("/login?logout")
                         .permitAll()
                 );
+        //기존 시큐리티 필터 체인 통로 중 UsernamePasswordAuthenticationFilter 바로 앞에 커스텀 JWT 필터를 끼워 넣기
+        http.addFilterBefore(jwtAuthFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 

@@ -1,8 +1,8 @@
 package com.aim.umc10th.domain.home.controller;
 
 import com.aim.umc10th.domain.home.dto.HomeResponseDTO;
-import com.aim.umc10th.global.config.apiPayload.ApiResponse;
-import com.aim.umc10th.global.config.apiPayload.code.GeneralSuccessCode;
+import com.aim.umc10th.global.apiPayload.ApiResponse;
+import com.aim.umc10th.global.apiPayload.code.GeneralSuccessCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

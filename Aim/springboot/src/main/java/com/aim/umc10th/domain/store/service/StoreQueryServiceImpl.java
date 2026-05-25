@@ -2,12 +2,11 @@ package com.aim.umc10th.domain.store.service;
 
 import com.aim.umc10th.domain.mission.entity.Mission;
 import com.aim.umc10th.domain.mission.repository.MissionRepository;
-import com.aim.umc10th.domain.store.entity.Region;
 import com.aim.umc10th.domain.store.entity.Store;
 import com.aim.umc10th.domain.store.repository.RegionRepository;
 import com.aim.umc10th.domain.store.repository.StoreRepository;
-import com.aim.umc10th.global.config.apiPayload.code.GeneralErrorCode;
-import com.aim.umc10th.global.config.apiPayload.exception.StoreHandler;
+import com.aim.umc10th.global.apiPayload.code.GeneralErrorCode;
+import com.aim.umc10th.global.apiPayload.exception.StoreHandler;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

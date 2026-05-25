@@ -1,4 +1,4 @@
-package com.aim.umc10th.global.config.security.entity;
+package com.aim.umc10th.global.security.entity;
 
 import com.aim.umc10th.domain.member.entity.Member;
 import jakarta.annotation.Nullable;

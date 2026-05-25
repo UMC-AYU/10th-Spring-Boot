@@ -1,6 +1,6 @@
 package com.aim.umc10th.domain.member.code;
 
-import com.aim.umc10th.global.config.apiPayload.code.BaseSuccessCode;
+import com.aim.umc10th.global.apiPayload.code.BaseSuccessCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

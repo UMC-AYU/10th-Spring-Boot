@@ -5,7 +5,7 @@ import com.aim.umc10th.domain.review.dto.ReviewRequestDTO;
 import com.aim.umc10th.domain.review.dto.ReviewResponseDTO;
 import com.aim.umc10th.domain.review.entity.Review;
 import com.aim.umc10th.domain.review.service.ReviewCommandService;
-import com.aim.umc10th.global.config.apiPayload.ApiResponse;
+import com.aim.umc10th.global.apiPayload.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

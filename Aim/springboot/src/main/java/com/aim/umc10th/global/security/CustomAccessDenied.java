@@ -1,7 +1,7 @@
-package com.aim.umc10th.global.config.security;
+package com.aim.umc10th.global.security;
 
-import com.aim.umc10th.global.config.apiPayload.ApiResponse;
-import com.aim.umc10th.global.config.apiPayload.code.GeneralErrorCode;
+import com.aim.umc10th.global.apiPayload.ApiResponse;
+import com.aim.umc10th.global.apiPayload.code.GeneralErrorCode;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
