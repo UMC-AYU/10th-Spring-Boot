@@ -9,6 +9,9 @@ import org.springframework.data.repository.query.Param;
 
 public interface ReviewRepository extends JpaRepository<Review, Long> {
 
+    // 해당 가게에 회원이 리뷰를 작성했는지 확인
+    boolean existsByMemberIdAndStoreId(Long memberId, Long storeId);
+
     Slice<Review> findByMemberIdOrderByIdDesc(Long memberId, Pageable pageable);
     Slice<Review> findByMemberIdAndIdLessThanOrderByIdDesc(Long memberId, Long cursor, Pageable pageable);
     Slice<Review> findByMemberIdOrderByScoreDescIdDesc(Long memberId, Pageable pageable);

@@ -12,7 +12,6 @@ public class MissionResDTO {
             String storeName,
             String condition,
             Integer rewardPoint,
-            Integer rewardPercent,
             Integer dDay,
             String status,
             Boolean hasReview

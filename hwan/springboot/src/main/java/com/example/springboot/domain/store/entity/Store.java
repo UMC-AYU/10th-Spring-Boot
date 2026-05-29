@@ -1,5 +1,6 @@
-package com.example.springboot.domain.mission.entity;
+package com.example.springboot.domain.store.entity;
 
+import com.example.springboot.domain.mission.entity.Mission;
 import com.example.springboot.domain.review.entity.Review;
 import com.example.springboot.global.base.BaseEntity;
 import jakarta.persistence.*;
@@ -40,4 +41,8 @@ public class Store extends BaseEntity {
     @OneToMany(mappedBy = "store", cascade = CascadeType.ALL)
     @Builder.Default
     private List<Review> reviews = new ArrayList<>();
+
+    public void updateScore(Float newScore) {
+        this.score = newScore;
+    }
 }

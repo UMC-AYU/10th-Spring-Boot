@@ -1,6 +1,7 @@
 package com.example.springboot.domain.mission.entity;
 
 import com.example.springboot.domain.mission.entity.mapping.UserMission;
+import com.example.springboot.domain.store.entity.Store;
 import com.example.springboot.global.base.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
