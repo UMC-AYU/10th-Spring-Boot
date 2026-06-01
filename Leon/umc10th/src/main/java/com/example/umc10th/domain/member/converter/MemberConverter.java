@@ -14,16 +14,14 @@ import java.math.BigDecimal;
 public class MemberConverter {
 
     public Member toMember(MemberRequestDTO.Signup dto) {
-        return Member.builder()
-                .email(dto.getEmail())
-                .name(dto.getName())
-                .gender(dto.getGender())
-                .birthDate(dto.getBirthDate())
-                .address(dto.getAddress())
-                .socialType("LOCAL")
-                .socialUid(dto.getEmail()) // 임시
-                .point(0)
-                .build();
+        return Member.create(
+                dto.getPassword(),
+                dto.getName(),
+                dto.getGender(),
+                dto.getBirthDate(),
+                dto.getAddress(),
+                dto.getEmail()
+        );
     }
 
     public MemberResponseDTO.Login toLogin(Member member) {
@@ -58,14 +56,6 @@ public class MemberConverter {
                 .totalElements(page.getTotalElements())
                 .totalPages(page.getTotalPages())
                 .isLast(page.isLast())
-                .build();
-    }
-
-    public MemberResponseDTO.MyReview toMyReview(Review review) {
-        return MemberResponseDTO.MyReview.builder()
-                .reviewId(review.getId())
-                .content(review.getContent())
-                .rating(BigDecimal.valueOf(review.getRating().intValue()))
                 .build();
     }
 }

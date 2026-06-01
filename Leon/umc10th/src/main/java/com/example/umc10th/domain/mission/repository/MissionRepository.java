@@ -7,8 +7,6 @@ import java.util.List;
 
 public interface MissionRepository extends JpaRepository<Mission, Long> {
 
-    List<Mission> findAll();
-
     List<Mission> findByStoreRegionId(Long regionId);
 
 }

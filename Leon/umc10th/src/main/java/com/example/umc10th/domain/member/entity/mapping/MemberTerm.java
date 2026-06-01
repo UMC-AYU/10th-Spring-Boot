@@ -13,16 +13,16 @@ import lombok.NoArgsConstructor;
 @Table(name = "member_term")
 public class MemberTerm {
 
-    @EmbeddedId
-    private MemberTermId id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "member_term_id")
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @MapsId("memberId")
     @JoinColumn(name = "member_id")
     private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @MapsId("termId")
     @JoinColumn(name = "term_id")
     private Term term;
 }

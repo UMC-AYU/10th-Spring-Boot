@@ -1,7 +1,8 @@
 package com.example.umc10th.domain.review.converter;
 
+import com.example.umc10th.domain.member.dto.MemberResponseDTO;
 import com.example.umc10th.domain.member.entity.Member;
-import com.example.umc10th.domain.mission.entity.Store;
+import com.example.umc10th.domain.store.entity.Store;
 import com.example.umc10th.domain.review.dto.ReviewRequestDTO;
 import com.example.umc10th.domain.review.dto.ReviewResponseDTO;
 import com.example.umc10th.domain.review.entity.Review;
@@ -23,7 +24,15 @@ public class ReviewConverter {
         return ReviewResponseDTO.ReviewInfo.builder()
                 .reviewId(review.getId())
                 .content(review.getContent())
-                .rating(review.getRating().intValue())
+                .rating(review.getRating())
+                .build();
+    }
+
+    public MemberResponseDTO.MyReview toMyReview(Review review) {
+        return MemberResponseDTO.MyReview.builder()
+                .reviewId(review.getId())
+                .content(review.getContent())
+                .rating(review.getRating())
                 .build();
     }
 }

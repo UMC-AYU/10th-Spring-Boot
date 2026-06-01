@@ -10,13 +10,11 @@ import com.example.umc10th.global.enums.MissionStatus;
 import com.example.umc10th.global.enums.ReviewSortType;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -28,7 +26,7 @@ public class UserController {
     @GetMapping("/me")
     public ApiResponse<MemberResponseDTO.GetMyInfo> getMyInfo() {
         Long memberId = 1L;
-        BaseSuccessCode code = MemberSuccessCode.OK;
+        BaseSuccessCode code = MemberSuccessCode.MEMBER_OK;
         return ApiResponse.onSuccess(code, userService.getMyInfo(memberId));
     }
 
@@ -39,7 +37,7 @@ public class UserController {
             @PageableDefault(size = 10) Pageable pageable
     ) {
 
-        BaseSuccessCode code = MemberSuccessCode.OK;
+        BaseSuccessCode code = MemberSuccessCode.MEMBER_OK;
         return ApiResponse.onSuccess(code, userService.getMyMissions(
                 request.getMemberId(),
                 status,
@@ -55,7 +53,7 @@ public class UserController {
             @RequestParam(defaultValue = "ID") ReviewSortType sort
     ) {
         Long memberId = 1L;
-        BaseSuccessCode code = MemberSuccessCode.OK;
+        BaseSuccessCode code = MemberSuccessCode.MEMBER_OK;
         return ApiResponse.onSuccess(code, userService.getMyReviews(
                 memberId,
                 cursorId,
@@ -65,13 +63,13 @@ public class UserController {
         ));
     }
 
-    @PostMapping("/me/preferences")
-    public ApiResponse<Void> setPreferences(
-            @RequestBody @Valid MemberRequestDTO.SetPreferences dto
+    @PostMapping("/me/categories")
+    public ApiResponse<Void> setCategories(
+            @RequestBody @Valid MemberRequestDTO.SetCategories dto
     ) {
         Long memberId = 1L;
-        BaseSuccessCode code = MemberSuccessCode.OK;
-        userService.setPreferences(memberId, dto.getCategoryIds());
+        BaseSuccessCode code = MemberSuccessCode.MEMBER_OK;
+        userService.setCategories(memberId, dto.getCategoryIds());
         return ApiResponse.onSuccess(code, null);
     }
 }

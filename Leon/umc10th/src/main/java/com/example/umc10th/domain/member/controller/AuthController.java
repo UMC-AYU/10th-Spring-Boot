@@ -21,7 +21,7 @@ public class AuthController {
     public ApiResponse<MemberResponseDTO.GetMyInfo> signup(
             @RequestBody @Valid MemberRequestDTO.Signup dto
     ) {
-        BaseSuccessCode code = MemberSuccessCode.OK;
+        BaseSuccessCode code = MemberSuccessCode.MEMBER_OK;
         return ApiResponse.onSuccess(code, authService.signup(dto));
     }
 
@@ -29,7 +29,7 @@ public class AuthController {
     public ApiResponse<MemberResponseDTO.Login> login(
             @RequestBody @Valid MemberRequestDTO.Login dto
     ) {
-        BaseSuccessCode code = MemberSuccessCode.OK;
+        BaseSuccessCode code = MemberSuccessCode.MEMBER_OK;
         return ApiResponse.onSuccess(code, authService.login(dto));
     }
 }

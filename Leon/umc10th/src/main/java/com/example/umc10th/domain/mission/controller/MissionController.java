@@ -5,6 +5,7 @@ import com.example.umc10th.domain.mission.exception.code.MissionSuccessCode;
 import com.example.umc10th.domain.mission.service.MissionService;
 import com.example.umc10th.global.apiPayload.ApiResponse;
 import com.example.umc10th.global.apiPayload.code.BaseSuccessCode;
+import com.example.umc10th.global.enums.MissionStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,9 +20,9 @@ public class MissionController {
 
     @GetMapping
     public ApiResponse<List<MissionResponseDTO.MissionInfo>> getMissions(
-            @RequestParam(required = false) String status
+            @RequestParam(required = false) MissionStatus status
     ) {
-        BaseSuccessCode code = MissionSuccessCode.OK;
+        BaseSuccessCode code = MissionSuccessCode.MISSION_OK;
         return ApiResponse.onSuccess(code, missionService.getMissions(status));
     }
 
@@ -30,7 +31,7 @@ public class MissionController {
             @PathVariable Long missionId
     ) {
         Long memberId = 1L;
-        BaseSuccessCode code = MissionSuccessCode.OK;
+        BaseSuccessCode code = MissionSuccessCode.MISSION_OK;
         missionService.startMission(memberId, missionId);
         return ApiResponse.onSuccess(code, null);
     }
@@ -40,7 +41,7 @@ public class MissionController {
             @PathVariable Long missionId
     ) {
         Long memberId = 1L;
-        BaseSuccessCode code = MissionSuccessCode.OK;
+        BaseSuccessCode code = MissionSuccessCode.MISSION_OK;
         missionService.completeMission(memberId, missionId);
         return ApiResponse.onSuccess(code, null);
     }

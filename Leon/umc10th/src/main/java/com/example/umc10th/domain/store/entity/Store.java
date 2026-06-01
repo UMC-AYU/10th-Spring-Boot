@@ -1,6 +1,5 @@
-package com.example.umc10th.domain.mission.entity;
+package com.example.umc10th.domain.store.entity;
 
-import com.example.umc10th.domain.store.entity.Store;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -11,20 +10,19 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "mission")
-public class Mission {
+@Table(name = "store")
+public class Store {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "mission_id")
+    @Column(name = "store_id")
     private Long id;
 
-    private String title;
-    private String description;
-    private Integer rewardPoint;
+    private String name;
+    private String address;
     private LocalDateTime createdAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "store_id")
-    private Store store;
+    @JoinColumn(name = "region_id")
+    private Region region;
 }
