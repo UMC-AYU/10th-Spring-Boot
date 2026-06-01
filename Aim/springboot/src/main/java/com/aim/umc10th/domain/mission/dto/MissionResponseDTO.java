@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class MissionResponseDTO {
@@ -30,5 +31,14 @@ public class MissionResponseDTO {
         Long totalElements; // 전체 데이터 개수
         Boolean isFirst; //첫 페이지 여부
         Boolean isLast; // 마지막 페이지 여부
+    }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class CreateResultDTO{
+        Long missionId;
+        LocalDateTime createdAt;
     }
 }

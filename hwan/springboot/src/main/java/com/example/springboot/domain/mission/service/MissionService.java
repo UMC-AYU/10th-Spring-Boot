@@ -8,7 +8,7 @@ import com.example.springboot.domain.mission.enums.MissionStatus;
 import com.example.springboot.domain.mission.repository.UserMissionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,9 +19,8 @@ public class MissionService {
     private final UserMissionRepository userMissionRepository;
 
     @Transactional(readOnly = true)
-    public MissionResDTO.MissionList getMissions(Long memberId, String status, Integer page) {
+    public MissionResDTO.MissionList getMissions(Long memberId, String status, Pageable pageable) {
         MissionStatus missionStatus = MissionStatus.valueOf(status);
-        PageRequest pageable = PageRequest.of(page - 1, 10);
         Page<UserMission> result = userMissionRepository
                 .findByMemberIdAndStatus(memberId, missionStatus, pageable);
         return MissionConverter.toMissionList(result, status);
