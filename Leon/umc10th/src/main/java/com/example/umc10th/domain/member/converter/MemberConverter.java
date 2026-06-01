@@ -1,4 +1,71 @@
 package com.example.umc10th.domain.member.converter;
 
+import com.example.umc10th.domain.member.dto.MemberRequestDTO;
+import com.example.umc10th.domain.member.dto.MemberResponseDTO;
+import com.example.umc10th.domain.member.entity.Member;
+import com.example.umc10th.domain.mission.entity.mapping.MemberMission;
+import com.example.umc10th.domain.review.entity.Review;
+import org.springframework.data.domain.Page;
+import org.springframework.stereotype.Component;
+
+import java.math.BigDecimal;
+
+@Component
 public class MemberConverter {
+
+    public Member toMember(MemberRequestDTO.Signup dto) {
+        return Member.builder()
+                .email(dto.getEmail())
+                .name(dto.getName())
+                .gender(dto.getGender())
+                .birthDate(dto.getBirthDate())
+                .address(dto.getAddress())
+                .socialType("LOCAL")
+                .socialUid(dto.getEmail()) // 임시
+                .point(0)
+                .build();
+    }
+
+    public MemberResponseDTO.Login toLogin(Member member) {
+        return MemberResponseDTO.Login.builder()
+                .memberId(member.getId())
+                .email(member.getEmail())
+                .name(member.getName())
+                .build();
+    }
+
+    public MemberResponseDTO.GetMyInfo toMyInfo(Member member) {
+        return MemberResponseDTO.GetMyInfo.builder()
+                .memberId(member.getId())
+                .email(member.getEmail())
+                .name(member.getName())
+                .point(member.getPoint())
+                .build();
+    }
+
+    public MemberResponseDTO.MyMission toMyMission(MemberMission mm) {
+        return MemberResponseDTO.MyMission.builder()
+                .missionId(mm.getMission().getId())
+                .status(mm.getStatus().name())
+                .build();
+    }
+
+    public <T> MemberResponseDTO.Pagination<T> toPagination(Page<T> page) {
+        return MemberResponseDTO.Pagination.<T>builder()
+                .data(page.getContent())
+                .pageNumber(page.getNumber())
+                .pageSize(page.getSize())
+                .totalElements(page.getTotalElements())
+                .totalPages(page.getTotalPages())
+                .isLast(page.isLast())
+                .build();
+    }
+
+    public MemberResponseDTO.MyReview toMyReview(Review review) {
+        return MemberResponseDTO.MyReview.builder()
+                .reviewId(review.getId())
+                .content(review.getContent())
+                .rating(BigDecimal.valueOf(review.getRating().intValue()))
+                .build();
+    }
 }

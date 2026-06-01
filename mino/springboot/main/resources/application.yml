@@ -3,17 +3,18 @@ spring:
     name: "swaggerer" # "umc10th"
 
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver # MySQL JDBC ???? ??? ??
-    url: ${DB_URL} # jdbc:mysql://localhost:3306/{???????}
-    username: ${DB_USER} # MySQL ?? ??
-    password: ${DB_PW} # MySQL ????
+    # ERD 기준 운영 DB는 MySQL이다. 다만 Swagger 확인/캡처 시 환경변수 없이도 실행되도록 H2 fallback을 둔다.
+    # 실제 MySQL 사용 시 DB_DRIVER, DB_URL, DB_USER, DB_PW 환경변수를 지정하면 된다.
+    driver-class-name: ${DB_DRIVER:org.h2.Driver}
+    url: ${DB_URL:jdbc:h2:mem:swaggerpr;MODE=MySQL;DATABASE_TO_LOWER=TRUE}
+    username: ${DB_USER:sa}
+    password: ${DB_PW:}
 
   jpa:
-    database: mysql # ??? ?????? ?? ?? (MySQL)
-    database-platform: org.hibernate.dialect.MySQLDialect # Hibernate?? ??? MySQL ??(dialect) ??
-    show-sql: true # ??? SQL ??? ??? ???? ?? ??
+    database-platform: ${DB_DIALECT:org.hibernate.dialect.H2Dialect}
+    show-sql: true
     hibernate:
-      ddl-auto: update # ?????? ?? ? ?????? ???? ??? ??
+      ddl-auto: update
     properties:
       hibernate:
-        format_sql: true # ???? SQL ??? ?? ?? ???
+        format_sql: true
