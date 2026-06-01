@@ -41,7 +41,7 @@ public class MemberResponseDTO {
     public static class MissionDetailDTO{ //바구니 안에 든 미션 하나하나
         Long missionId;
         String storeName; //가게 이름
-        Integer reward;
+        Long reward;
         String deadline;
         String missionSpec;
         String status; //CHALLENGING 또는 COMPLETE 구분
@@ -88,6 +88,11 @@ public class MemberResponseDTO {
         Long totalElements; //전체 리뷰 개수
         Boolean isFirst; //첫 페이지 여부
         Boolean isLast; //마지막 페이지 여부
+
+        //미션2 커서용 필드
+        Integer listSize; // 현재 리스트에 담긴 개수
+        Long nextCursor; //다음 조회를 위한 커서 ID
+        Boolean hasNext; // 다음 페이지 존재 여부 (Slice 사용 시 필요하다.)
     }
 
     @Builder
@@ -112,5 +117,32 @@ public class MemberResponseDTO {
         String phone_number;
         Long point;
         Integer reviewCount;
+    }
+
+    // 전체 리스트 응답용 (페이징 정보 포함)
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class MyMissionListDTO{
+        List<MyMissionDTO> missionList;
+        Integer listSize;
+        Integer totalPage;
+        Long totalElements;
+        Boolean isFirst;
+        Boolean isLast;
+    }
+
+    //개별 미션 정보 응답용
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class MyMissionDTO{
+        Long memberMissionId; //맴버-미션 연관관계 테이블의 ID
+        String storeName; //어느 가게 미션인지
+        String missionSpec; //미션 내용
+        Long reward; //포인트
+        String status; // 현재 상태 (CHALLENGING)
     }
 }

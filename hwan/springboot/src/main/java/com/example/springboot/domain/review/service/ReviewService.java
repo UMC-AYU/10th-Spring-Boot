@@ -8,8 +8,12 @@ import com.example.springboot.domain.review.converter.ReviewConverter;
 import com.example.springboot.domain.review.dto.ReviewReqDTO;
 import com.example.springboot.domain.review.dto.ReviewResDTO;
 import com.example.springboot.domain.review.entity.Review;
+import com.example.springboot.domain.review.exception.ReviewErrorCode;
+import com.example.springboot.domain.review.exception.ReviewException;
 import com.example.springboot.domain.review.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,5 +41,42 @@ public class ReviewService {
 
         Review saved = reviewRepository.save(review);
         return ReviewConverter.toCreateDTO(saved);
+    }
+
+    @Transactional(readOnly = true)
+    public ReviewResDTO.CursorPagination<ReviewResDTO.ReviewItem> getMyReviews(
+            Long memberId,
+            Integer pageSize,
+            String cursor,
+            String query
+    ) {
+        PageRequest pageRequest = PageRequest.of(0, pageSize);
+        boolean isFirst = "-1".equals(cursor);
+
+        Slice<Review> slice = switch (query.toLowerCase()) {
+
+            case "id" -> isFirst
+                    ? reviewRepository.findByMemberIdOrderByIdDesc(memberId, pageRequest)
+                    : reviewRepository.findByMemberIdAndIdLessThanOrderByIdDesc(
+                    memberId, parseId(cursor), pageRequest);
+
+            case "rating" -> isFirst
+                    ? reviewRepository.findByMemberIdOrderByScoreDescIdDesc(memberId, pageRequest)
+                    : reviewRepository.findByMemberIdWithRatingCursor(
+                    memberId, parseScore(cursor), parseId(cursor), pageRequest);
+
+            default -> throw new ReviewException(ReviewErrorCode.INVALID_RATING);
+        };
+
+        return ReviewConverter.toCursorPagination(slice, query);
+    }
+
+    private Long parseId(String cursor) {
+        String[] parts = cursor.split(":");
+        return Long.parseLong(parts[parts.length - 1]);
+    }
+
+    private Float parseScore(String cursor) {
+        return Float.parseFloat(cursor.split(":")[1]);
     }
 }

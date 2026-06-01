@@ -29,4 +29,17 @@ public class ReviewController {
         BaseSuccessCode code = ReviewSuccessCode.REVIEW_CREATE_OK;
         return ApiResponse.onSuccess(code, reviewService.createReview(storeId, memberId, dto));
     }
+
+    @GetMapping("/members/{memberId}/reviews")
+    public ApiResponse<ReviewResDTO.CursorPagination<ReviewResDTO.ReviewItem>> getMyReviews(
+            @PathVariable Long memberId,
+            @RequestParam(defaultValue = "10") Integer pageSize,
+            @RequestParam(defaultValue = "-1") String cursor,
+            @RequestParam(defaultValue = "id") String query
+    ) {
+        return ApiResponse.onSuccess(
+                ReviewSuccessCode.REVIEW_CREATE_OK,
+                reviewService.getMyReviews(memberId, pageSize, cursor, query)
+        );
+    }
 }
