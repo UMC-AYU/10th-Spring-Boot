@@ -9,8 +9,7 @@ import org.springframework.data.repository.query.Param;
 
 public interface MissionRepository extends JpaRepository<Mission, Long> {
 
-    @Query("SELECT m FROM Mission m " +
-            "JOIN FETCH m.store s " +
-            "WHERE s.region.id = :regionId")
+    @Query(value = "SELECT m FROM Mission m JOIN FETCH m.store s WHERE s.region.id = :regionId",
+            countQuery = "SELECT COUNT(m) FROM Mission m JOIN m.store s WHERE s.region.id = :regionId")
     Page<Mission> findByRegionId(@Param("regionId") Long regionId, Pageable pageable);
 }

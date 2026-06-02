@@ -59,4 +59,9 @@ public class Member extends BaseEntity {
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     @Builder.Default
     private List<Review> reviews = new ArrayList<>();
+
+    // 포인트 지급
+    public void addPoint(int point) {
+        this.point += point;
+    }
 }

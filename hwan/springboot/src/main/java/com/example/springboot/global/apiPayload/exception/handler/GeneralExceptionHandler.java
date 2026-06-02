@@ -4,6 +4,8 @@ import com.example.springboot.global.apiPayload.ApiResponse;
 import com.example.springboot.global.apiPayload.code.BaseErrorCode;
 import com.example.springboot.global.apiPayload.code.GeneralErrorCode;
 import com.example.springboot.global.apiPayload.exception.ProjectException;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -37,6 +39,23 @@ public class GeneralExceptionHandler {
         Map<String, String> errors = new HashMap<>();
         for (FieldError error : e.getBindingResult().getFieldErrors()) {
             errors.put(error.getField(), error.getDefaultMessage());
+        }
+
+        BaseErrorCode code = GeneralErrorCode.BAD_REQUEST;
+        return ResponseEntity.status(code.getStatus())
+                .body(ApiResponse.onFailure(code, errors));
+    }
+
+    // @RequestParam, @PathVariable 등 파라미터 검증 실패 처리 (@Validated + @Min 등)
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<ApiResponse<Map<String, String>>> handleConstraintViolationException(
+            ConstraintViolationException e) {
+
+        Map<String, String> errors = new HashMap<>();
+        for (ConstraintViolation<?> violation : e.getConstraintViolations()) {
+            String path = violation.getPropertyPath().toString();
+            String field = path.contains(".") ? path.substring(path.lastIndexOf('.') + 1) : path;
+            errors.put(field, violation.getMessage());
         }
 
         BaseErrorCode code = GeneralErrorCode.BAD_REQUEST;

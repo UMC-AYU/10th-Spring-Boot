@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 
 public class MissionConverter {
 
-    public static MissionResDTO.MissionItem toMissionItem(UserMission um) {
+    public static MissionResDTO.MissionItem toMissionItem(UserMission um, boolean hasReview) {
         LocalDate deadline = um.getMission().getDeadline();
         int dDay = deadline != null
                 ? (int) ChronoUnit.DAYS.between(LocalDate.now(), deadline)
@@ -22,18 +22,13 @@ public class MissionConverter {
                 .storeName(um.getMission().getStore().getName())
                 .condition(um.getMission().getCondition())
                 .rewardPoint(um.getMission().getRewardPoint())
-                .rewardPercent(0)
                 .dDay(dDay)
                 .status(um.getStatus().name())
-                .hasReview(false)
+                .hasReview(hasReview)
                 .build();
     }
 
-    public static MissionResDTO.MissionList toMissionList(Page<UserMission> page, String status) {
-        List<MissionResDTO.MissionItem> items = page.getContent().stream()
-                .map(MissionConverter::toMissionItem)
-                .collect(Collectors.toList());
-
+    public static MissionResDTO.MissionList toMissionList(List<MissionResDTO.MissionItem> items, Page<UserMission> page, String status) {
         return MissionResDTO.MissionList.builder()
                 .status(status)
                 .missions(items)
