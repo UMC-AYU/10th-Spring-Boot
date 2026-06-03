@@ -4,33 +4,42 @@ import com.example.umc10th.domain.member.dto.MemberRequestDTO;
 import com.example.umc10th.domain.member.dto.MemberResponseDTO;
 import com.example.umc10th.domain.member.entity.Member;
 import com.example.umc10th.domain.mission.entity.mapping.MemberMission;
-import com.example.umc10th.domain.review.entity.Review;
+import com.example.umc10th.global.security.dto.OAuthDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
-
-import java.math.BigDecimal;
 
 @Component
 public class MemberConverter {
 
     public Member toMember(MemberRequestDTO.Signup dto) {
-        return Member.builder()
-                .email(dto.getEmail())
-                .name(dto.getName())
-                .gender(dto.getGender())
-                .birthDate(dto.getBirthDate())
-                .address(dto.getAddress())
-                .socialType("LOCAL")
-                .socialUid(dto.getEmail()) // 임시
-                .point(0)
-                .build();
+        return Member.create(
+                dto.getPassword(),
+                dto.getName(),
+                dto.getGender(),
+                dto.getBirthDate(),
+                dto.getAddress(),
+                dto.getEmail()
+        );
     }
 
-    public MemberResponseDTO.Login toLogin(Member member) {
+    public Member toMember(OAuthDTO dto) {
+        return Member.createOAuthMember(
+                dto.getSocialType(),
+                dto.getSocialUid(),
+                dto.getName(),
+                dto.getSocialEmail()
+        );
+    }
+
+    public MemberResponseDTO.Login toLogin(
+            Member member,
+            String accessToken
+    ) {
         return MemberResponseDTO.Login.builder()
                 .memberId(member.getId())
                 .email(member.getEmail())
                 .name(member.getName())
+                .accessToken(accessToken)
                 .build();
     }
 
@@ -58,14 +67,6 @@ public class MemberConverter {
                 .totalElements(page.getTotalElements())
                 .totalPages(page.getTotalPages())
                 .isLast(page.isLast())
-                .build();
-    }
-
-    public MemberResponseDTO.MyReview toMyReview(Review review) {
-        return MemberResponseDTO.MyReview.builder()
-                .reviewId(review.getId())
-                .content(review.getContent())
-                .rating(BigDecimal.valueOf(review.getRating().intValue()))
                 .build();
     }
 }

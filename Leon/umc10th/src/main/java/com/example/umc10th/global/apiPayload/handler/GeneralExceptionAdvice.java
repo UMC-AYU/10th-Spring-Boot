@@ -16,7 +16,7 @@ import java.util.Map;
 public class GeneralExceptionAdvice {
 
     @ExceptionHandler(ProjectException.class)
-    public ResponseEntity<ApiResponse<Void>> handleMemberException(
+    public ResponseEntity<ApiResponse<Void>> handleProjectException(
             ProjectException e
     ) {
         BaseErrorCode errorCode = e.getErrorCode();
